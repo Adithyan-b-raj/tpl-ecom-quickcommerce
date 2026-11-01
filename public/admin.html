@@ -2,133 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FRESHCO 25-MIN EXPRESS — Admin & POS Command Center</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <title data-wl-brand>FLASH GROCERY // Dark-Store Picker Queue</title>
   <link rel="stylesheet" href="theme-tokens.css">
   <script src="whitelabel.js"></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-primary); background: #F4F5F7; color: #0F172A; display: flex; min-height: 100vh; }
-    aside.admin-sidebar {
-      width: 250px;
-      background: var(--brand-dark);
-      color: #FFF;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-    .sidebar-brand-title { font-family: var(--font-accent); font-size: 19px; font-weight: 700; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.12); }
-    .sidebar-brand-title span { color: var(--brand-primary); }
-    .nav-item { padding: 10px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; color: #CBD5E1; }
-    .nav-item.active, .nav-item:hover { background: var(--brand-primary); color: #FFF; }
-    main { flex: 1; padding: 26px; overflow-y: auto; }
-    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; flex-wrap: wrap; gap: 12px; }
-    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
-    .kpi-card { background: #FFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px; }
-    .kpi-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #64748B; }
-    .kpi-val { font-size: 22px; font-weight: 700; margin: 6px 0 4px; }
-    .kpi-delta { font-size: 11px; font-weight: 600; color: var(--brand-primary); }
-    .card-box { background: #FFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 18px; }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th, td { text-align: left; padding: 11px 10px; border-bottom: 1px solid #E2E8F0; }
-    th { font-size: 11px; text-transform: uppercase; color: #64748B; }
-    .status-pill { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; background: #FEF3EE; color: var(--brand-primary); }
-    .btn-sm { background: var(--brand-primary); color: #FFF; border: none; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; text-decoration: none; }
-    @media (max-width: 860px) { body { flex-direction: column; } aside.admin-sidebar { width: 100%; } .kpi-grid { grid-template-columns: 1fr 1fr; } }
+    body { background: #0F172A; color: #FFF; font-family: monospace; padding: 24px; }
   </style>
 </head>
-<body>
-  <aside class="admin-sidebar">
-    <div class="sidebar-brand-title">FRESHCO 25-MIN EXPRESS <span>Hub</span></div>
-    <div class="nav-item active">⚡ Live POS / Operations</div>
-    <div class="nav-item" onclick="window.location.href='index.html'">👁️ Customer Portal</div>
-    <div style="margin-top:auto;padding-top:14px;border-top:1px solid rgba(255,255,255,0.12);font-size:11px;color:#94A3B8;">
-      Support / Alert WhatsApp:
-      <input type="text" id="adminWaInput" data-wl-wa value="919061902295" style="width:100%;margin-top:6px;padding:6px;border-radius:4px;border:none;">
-    </div>
-  </aside>
-  <main>
-    <div class="top-bar">
-      <div>
-        <div class="mobile-brand" style="font-size:12px;font-weight:700;color:var(--brand-primary);text-transform:uppercase;">FRESHCO 25-MIN EXPRESS</div>
-        <h1 style="font-size:21px;">Dark-Store Packing Queue, Cold-Chain Inventory & Rider Dispatch Hub</h1>
-      </div>
-      <a href="index.html" class="btn-sm">← Customer View</a>
-    </div>
-    <div class="kpi-grid">
-      <div class="kpi-card"><div class="kpi-label">Avg Delivery Time Today</div><div class="kpi-val">21.4 Mins</div><div class="kpi-delta">Kakkanad & Panampilly Hubs</div></div><div class="kpi-card"><div class="kpi-label">Active Riders on Road</div><div class="kpi-val">16 Riders</div><div class="kpi-delta">4 Orders Packing Now</div></div><div class="kpi-card"><div class="kpi-label">Cold-Room Temp Log</div><div class="kpi-val">1.8°C Optimal</div><div class="kpi-delta">Zero Spoilage</div></div><div class="kpi-card"><div class="kpi-label">Today Express Orders</div><div class="kpi-val">218 Delivered</div><div class="kpi-delta">₹1.26L Daily GMV</div></div>
-    </div>
-    <div class="card-box">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-        <h2 style="font-size:16px;">Live Operations Queue, Counter POS & Ledger</h2>
-        <button class="btn-sm" onclick="newPosEntry()">+ New Counter / POS Entry</button>
-      </div>
-      <div style="overflow-x:auto;">
-        <table>
-          <thead><tr><th>ID</th><th>Party / Account</th><th>Line Items & Particulars</th><th>Amount</th><th>Status</th><th>WhatsApp</th></tr></thead>
-          <tbody id="leadsTableBody"></tbody>
-        </table>
-      </div>
-    </div>
-  </main>
-  <script>
-    const SEED = [
-  {
-    "id": "QC-3391",
-    "name": "Sreekumar Nair (Panampilly Nagar — 682036)",
-    "phone": "919847011223",
-    "detail": "1kg Neymeen Curry Cut + 500g Tiger Prawns • Rider: Shafeeq (KL-07-CS-4411)",
-    "status": "OUT FOR DELIVERY 🛵",
-    "amount": "₹1,620"
-  },
-  {
-    "id": "QC-3392",
-    "name": "Reshma Thomas (Kakkanad InfoPark — 682030)",
-    "phone": "919447022334",
-    "detail": "Organic Veg Box + Appam Batter Combo • Slot: 6:00 PM Evening",
-    "status": "PACKING AT HUB ❄️",
-    "amount": "₹550"
-  },
-  {
-    "id": "QC-3390",
-    "name": "Capt. George V. (Marine Drive — 682031)",
-    "phone": "919895033445",
-    "detail": "2x Kanthari Pepper Fish Pack • Delivered in 19 mins",
-    "status": "DELIVERED ✅",
-    "amount": "₹960"
-  }
-];
-    function render() {
-      let local = [];
-      try { local = JSON.parse(localStorage.getItem('bmad_leads_tpl-ecom-quickcommerce') || '[]'); } catch (e) {}
-      const rows = [...local, ...SEED];
-      document.getElementById('leadsTableBody').innerHTML = rows.map(row => `
-        <tr>
-          <td><strong>${row.id}</strong></td>
-          <td>${row.name}<br><span style="font-size:11px;color:#64748B;">+${row.phone}</span></td>
-          <td>${row.detail}</td>
-          <td><strong>${row.amount}</strong></td>
-          <td><span class="status-pill">${row.status}</span></td>
-          <td><a class="btn-sm" target="_blank" href="https://wa.me/${String(row.phone).replace(/[^0-9]/g,'')}?text=${encodeURIComponent('Update from ' + document.title + ': ' + row.id + ' — ' + row.detail)}">💬 Alert</a></td>
-        </tr>
-      `).join('');
-    }
-    function newPosEntry() {
-      const name = prompt('Customer / Vendor / Employee Name:');
-      if (!name) return;
-      const detail = prompt('Items / Notes:', 'Munambam Day-Boat Seer Fish / Neymeen Steaks (500g Net)');
-      const amount = prompt('Amount (₹):', '₹1,450');
-      const local = JSON.parse(localStorage.getItem('bmad_leads_tpl-ecom-quickcommerce') || '[]');
-      local.unshift({ id: 'POS-' + Math.floor(1000 + Math.random()*9000), name, phone: document.getElementById('adminWaInput').value || '919061902295', detail, amount, status: 'CONFIRMED' });
-      localStorage.setItem('bmad_leads_tpl-ecom-quickcommerce', JSON.stringify(local));
-      render();
-    }
-    render();
-  </script>
+<body data-layout-archetype="hyperlocal-admin">
+  <h2><span data-wl-brand>FLASH GROCERY</span> — Dark-Store Picking Bin & Rider Dispatch</h2>
+  <div style="background:#1E293B; padding:18px; margin-top:20px;">
+    <div>BIN #A-14: Hass Avocados + A2 Milk</div>
+    <div style="color:#0C831F; margin-top:6px;">● PICKED IN 1.8 MINS · RIDER SUNIL ASSIGNED</div>
+  </div>
 </body>
 </html>

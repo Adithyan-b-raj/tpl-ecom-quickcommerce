@@ -1,17 +1,31 @@
-/* Extracted via tpl-tools-design-extractor for tpl-ecom-quickcommerce */
+/* ==========================================================================
+   BMAD Normalized Design Tokens & Movement Blueprint (theme-tokens.css)
+   Movement  : [D] High-Density Hyperlocal 3-Pane Utility
+   Archetype : 12-Minute Hyperlocal Grocery & Dark-Store App Shell (Zepto / Blinkit / Getir)
+   Reference : https://www.zeptonow.com
+   Contract  : whitelabel-and-showroom-contract.md §2 + design-movements-and-layout-blueprints.md
+   ========================================================================== */
+
 :root {
   --font-primary: 'Plus Jakarta Sans', sans-serif;
-  --font-accent: 'Space Grotesk', sans-serif;
-  --color-primary: #16A34A;
+  --font-accent: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --color-primary: #0C831F;
   --brand-primary: var(--color-primary);
+
   --color-dark: #0F172A;
   --brand-dark: var(--color-dark);
-  --bg-main: #F8FAFC;
-  --bg-canvas: #DCFCE7;
+
+  --bg-main: #F1F5F9;
+  --bg-canvas: #FFFFFF;
   --bg-sand: var(--bg-canvas);
-  --border-color: #BBF7D0;
-  --grid-gap-desktop: 28px 22px;
-  --grid-gap-mobile: 16px 14px;
-  --radius: 6px;
+
+  --border-color: #E2E8F0;
+  --border-structural: 1px solid #E2E8F0;
+  --shadow-token: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --grid-gap-desktop: 12px;
+  --grid-gap-mobile: 8px;
+  --radius: 12px;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
