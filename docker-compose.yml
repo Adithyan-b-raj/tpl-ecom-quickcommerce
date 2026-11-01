@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  app:
+    image: medusajs/medusa:latest
+    restart: unless-stopped
+    ports:
+      - "8080:8000"
+    environment:
+      - BRAND_NAME=FRESHCO 25-MIN EXPRESS
+      - PRIMARY_COLOR=#16A34A
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=bmad
+      - POSTGRES_PASSWORD=bmad_secret
+      - POSTGRES_DB=tpl_ecom_quickcommerce

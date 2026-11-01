@@ -1,0 +1,13 @@
+<section class="bmad-hero" style="--color-primary: {{ section.settings.primary_color }};">
+  <h1>{{ section.settings.heading | default: "FRESHCO 25-MIN EXPRESS" }}</h1>
+  <p>{{ section.settings.subheading | default: "Chemical-free catch-of-the-day fish, antibiotic-free meat & organic farm produce in 25 minutes." }}</p>
+</section>
+{% schema %}
+{
+  "name": "FRESHCO 25-MIN EXPRESS Hero",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Brand Heading", "default": "FRESHCO 25-MIN EXPRESS" },
+    { "type": "color", "id": "primary_color", "label": "Primary Accent", "default": "#16A34A" }
+  ]
+}
+{% endschema %}

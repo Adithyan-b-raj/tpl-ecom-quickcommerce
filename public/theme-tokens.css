@@ -1,0 +1,17 @@
+/* Extracted via tpl-tools-design-extractor for tpl-ecom-quickcommerce */
+:root {
+  --font-primary: 'Plus Jakarta Sans', sans-serif;
+  --font-accent: 'Space Grotesk', sans-serif;
+  --color-primary: #16A34A;
+  --brand-primary: var(--color-primary);
+  --color-dark: #0F172A;
+  --brand-dark: var(--color-dark);
+  --bg-main: #F8FAFC;
+  --bg-canvas: #DCFCE7;
+  --bg-sand: var(--bg-canvas);
+  --border-color: #BBF7D0;
+  --grid-gap-desktop: 28px 22px;
+  --grid-gap-mobile: 16px 14px;
+  --radius: 6px;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
