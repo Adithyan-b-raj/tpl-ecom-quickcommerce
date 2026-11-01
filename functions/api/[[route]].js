@@ -1,5 +1,62 @@
-export async function onRequest() {
-  return new Response(JSON.stringify({ service: 'tpl-ecom-quickcommerce', status: 'ok', items: [{"id":"QC-3391","name":"Sreekumar Nair (Panampilly Nagar — 682036)","phone":"919847011223","detail":"1kg Neymeen Curry Cut + 500g Tiger Prawns • Rider: Shafeeq (KL-07-CS-4411)","status":"OUT FOR DELIVERY 🛵","amount":"₹1,620"},{"id":"QC-3392","name":"Reshma Thomas (Kakkanad InfoPark — 682030)","phone":"919447022334","detail":"Organic Veg Box + Appam Batter Combo • Slot: 6:00 PM Evening","status":"PACKING AT HUB ❄️","amount":"₹550"},{"id":"QC-3390","name":"Capt. George V. (Marine Drive — 682031)","phone":"919895033445","detail":"2x Kanthari Pepper Fish Pack • Delivered in 19 mins","status":"DELIVERED ✅","amount":"₹960"}] }), {
-    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=30, s-maxage=60, stale-while-revalidate=120' }
+import { getCatalog, getColdChainReadings, logColdChainReading, checkPincode } from './_store.js';
+
+export async function onRequest(context) {
+  const { request } = context;
+  const url = new URL(request.url);
+  const path = url.pathname;
+
+  // Cold Chain endpoint
+  if (path.includes('/api/cold-chain')) {
+    if (request.method === 'POST') {
+      try {
+        const body = await request.json();
+        const logged = logColdChainReading(body);
+        return new Response(JSON.stringify({ success: true, reading: logged }), {
+          headers: { 'Content-Type': 'application/json' }
+        });
+      } catch (err) {
+        return new Response(JSON.stringify({ success: false, error: err.message }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+    }
+    const data = getColdChainReadings();
+    return new Response(JSON.stringify({ success: true, ...data }), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-store'
+      }
+    });
+  }
+
+  // Health check endpoint
+  if (path.includes('/api/health') || path === '/api' || path === '/api/') {
+    return new Response(JSON.stringify({
+      service: 'tpl-ecom-quickcommerce',
+      archetype: 'hyperlocal-3pane-app',
+      movement: 'Movement D: High-Velocity Hyperlocal App-Shell (Zepto / Blinkit)',
+      status: 'ok',
+      engine: 'Cloudflare Pages Functions + D1 Edge Cache',
+      timestamp: new Date().toISOString()
+    }), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-store'
+      }
+    });
+  }
+
+  // Fallback: Return summary catalog
+  const catalog = getCatalog();
+  return new Response(JSON.stringify({
+    service: 'tpl-ecom-quickcommerce',
+    status: 'ok',
+    catalog
+  }), {
+    headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'public, max-age=15, stale-while-revalidate=30'
+    }
   });
 }

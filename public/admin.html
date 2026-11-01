@@ -2,18 +2,941 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title data-wl-brand>FLASH GROCERY // Dark-Store Picker Queue</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-wl-brand>FLASH GROCERY // Dark-Store Picking & Dispatch Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="theme-tokens.css">
   <script src="whitelabel.js"></script>
   <style>
-    body { background: #0F172A; color: #FFF; font-family: monospace; padding: 24px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0B0F19;
+      color: #E2E8F0;
+      font-family: var(--font-primary, 'Plus Jakarta Sans', sans-serif);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Command Header */
+    .admin-top-bar {
+      height: 64px;
+      background: #111827;
+      border-bottom: 1px solid #1E293B;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .admin-title-area {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .admin-brand {
+      font-weight: 800;
+      font-size: 18px;
+      color: #22C55E;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .hub-badge {
+      background: #1E293B;
+      color: #94A3B8;
+      font-size: 11px;
+      font-family: var(--font-mono, monospace);
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid #334155;
+    }
+    .admin-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-live-store {
+      background: #22C55E;
+      color: #0F172A;
+      font-weight: 800;
+      font-size: 12px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s ease;
+    }
+    .btn-live-store:hover {
+      background: #16A34A;
+    }
+
+    /* KPI Summary Ribbon */
+    .kpi-ribbon {
+      background: #0F172A;
+      border-bottom: 1px solid #1E293B;
+      padding: 14px 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .kpi-card {
+      background: #1E293B;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .kpi-icon {
+      font-size: 24px;
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      background: #0B0F19;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .kpi-info { flex: 1; }
+    .kpi-label { font-size: 11px; color: #94A3B8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+    .kpi-value { font-size: 20px; font-weight: 800; font-family: var(--font-mono, monospace); color: #F8FAFC; margin-top: 2px; }
+    .kpi-sub { font-size: 10px; color: #22C55E; font-weight: 600; }
+
+    /* Admin Workspace Grid */
+    .admin-main {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      flex: 1;
+    }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      border-bottom: 1px solid #1E293B;
+      padding-bottom: 10px;
+    }
+    .section-head h2 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #F8FAFC;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-tag {
+      font-size: 11px;
+      font-family: var(--font-mono, monospace);
+      color: #94A3B8;
+      background: #1E293B;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    /* Section 1: Dark-Store Picking Queue */
+    .picking-queue-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 16px;
+    }
+    .pick-ticket {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      transition: border-color 0.15s ease;
+    }
+    .pick-ticket.ticket-packed {
+      border-color: #22C55E;
+      background: #0d1e17;
+    }
+    .pick-ticket.urgency-critical {
+      border-color: #EF4444;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.2);
+    }
+    .pick-ticket-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .ticket-id {
+      font-size: 15px;
+      font-weight: 800;
+      font-family: var(--font-mono, monospace);
+      color: #F8FAFC;
+    }
+    .ticket-customer {
+      font-size: 12px;
+      color: #94A3B8;
+      margin-top: 2px;
+    }
+    .ticket-timer-badge {
+      font-size: 12px;
+      font-family: var(--font-mono, monospace);
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .timer-normal { background: #064E3B; color: #34D399; }
+    .timer-warning { background: #78350F; color: #FBBF24; }
+    .timer-critical { background: #7F1D1D; color: #F87171; animation: blinkPulse 1s infinite; }
+    @keyframes blinkPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    /* Picking Items List */
+    .pick-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .pick-item-row {
+      background: #1E293B;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.1s ease;
+    }
+    .pick-item-row:hover {
+      background: #273549;
+    }
+    .pick-item-row.picked {
+      background: #064E3B;
+      border-color: #059669;
+      opacity: 0.75;
+    }
+    .pick-checkbox {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      border: 2px solid #64748B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: #FFFFFF;
+      background: transparent;
+      flex-shrink: 0;
+    }
+    .pick-item-row.picked .pick-checkbox {
+      background: #10B981;
+      border-color: #10B981;
+    }
+    .pick-item-meta { flex: 1; }
+    .bin-coord {
+      font-size: 10px;
+      font-family: var(--font-mono, monospace);
+      font-weight: 800;
+      color: #38BDF8;
+      background: #0B132B;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 2px;
+    }
+    .pick-item-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: #F8FAFC;
+    }
+    .pick-item-weight {
+      font-size: 11px;
+      color: #94A3B8;
+      font-family: var(--font-mono, monospace);
+    }
+
+    .btn-pack-order {
+      width: 100%;
+      background: #22C55E;
+      color: #0F172A;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      font-family: var(--font-mono, monospace);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.15s ease;
+    }
+    .btn-pack-order:hover {
+      background: #16A34A;
+    }
+    .btn-pack-order:disabled {
+      background: #334155;
+      color: #64748B;
+      cursor: not-allowed;
+    }
+
+    /* Section 2: Rider Fleet Dispatch Table */
+    .fleet-table-container {
+      background: #111827;
+      border: 1px solid #1E293B;
+      border-radius: 12px;
+      overflow-x: auto;
+    }
+    .fleet-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+    .fleet-table th {
+      background: #1E293B;
+      color: #94A3B8;
+      padding: 12px 16px;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #334155;
+    }
+    .fleet-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #1E293B;
+      color: #E2E8F0;
+    }
+    .rider-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .rider-thumb {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid #334155;
+    }
+    .rider-status-pill {
+      font-size: 11px;
+      font-family: var(--font-mono, monospace);
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+    .status-transit { background: #064E3B; color: #34D399; }
+    .status-idle { background: #1E293B; color: #94A3B8; }
+    .batt-bar {
+      width: 70px;
+      height: 6px;
+      background: #334155;
+      border-radius: 3px;
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 6px;
+    }
+    .batt-fill {
+      height: 100%;
+      background: #22C55E;
+    }
+    .btn-action-dispatch {
+      background: #0284C7;
+      color: #FFFFFF;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-action-dispatch:hover {
+      background: #0369A1;
+    }
+    .btn-wa-alert {
+      background: #25D366;
+      color: #FFFFFF;
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 6px;
+    }
+
+    /* Section 3: Cold-Chain Temperature Logger */
+    .cold-chain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .sensor-card {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .sensor-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #94A3B8;
+    }
+    .sensor-temp-display {
+      font-size: 26px;
+      font-weight: 800;
+      font-family: var(--font-mono, monospace);
+      color: #38BDF8;
+    }
+    .sensor-status-tag {
+      font-size: 10px;
+      font-family: var(--font-mono, monospace);
+      font-weight: 800;
+      padding: 3px 6px;
+      border-radius: 4px;
+      background: #064E3B;
+      color: #34D399;
+      display: inline-block;
+    }
+
+    /* White-Label Admin Personalization Box */
+    .wl-admin-settings {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .wl-inputs {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .wl-input-field {
+      background: #1E293B;
+      border: 1px solid #334155;
+      color: #FFFFFF;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      outline: none;
+    }
   </style>
 </head>
-<body data-layout-archetype="hyperlocal-admin">
-  <h2><span data-wl-brand>FLASH GROCERY</span> — Dark-Store Picking Bin & Rider Dispatch</h2>
-  <div style="background:#1E293B; padding:18px; margin-top:20px;">
-    <div>BIN #A-14: Hass Avocados + A2 Milk</div>
-    <div style="color:#0C831F; margin-top:6px;">● PICKED IN 1.8 MINS · RIDER SUNIL ASSIGNED</div>
-  </div>
+<body data-layout-archetype="darkstore-picker-admin">
+
+  <!-- TOP BAR -->
+  <header class="admin-top-bar">
+    <div class="admin-title-area">
+      <a href="admin.html" class="admin-brand">
+        <span data-wl-brand>FLASH GROCERY</span>
+        <span style="font-size: 12px; color: #94A3B8; font-weight: 600;">// DARK-STORE OPS HUB</span>
+      </a>
+      <div class="hub-badge">HUB: BLR-INDIRA-04 • Zone C Fulfillment</div>
+    </div>
+    <div class="admin-actions">
+      <a href="index.html" class="btn-live-store">
+        <span>⚡</span> VIEW STOREFRONT
+      </a>
+    </div>
+  </header>
+
+  <!-- KPI RIBBON -->
+  <section class="kpi-ribbon">
+    <div class="kpi-card">
+      <div class="kpi-icon">📦</div>
+      <div class="kpi-info">
+        <div class="kpi-label">Active Picking Queue</div>
+        <div class="kpi-value" id="kpiActivePicking">2 Orders</div>
+        <div class="kpi-sub">3-Min SLA Target</div>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">⏱️</div>
+      <div class="kpi-info">
+        <div class="kpi-label">Avg Pick Velocity</div>
+        <div class="kpi-value">1.8 Mins</div>
+        <div class="kpi-sub">Target: &lt; 3.0 Mins (98.4% SLA)</div>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">🛵</div>
+      <div class="kpi-info">
+        <div class="kpi-label">Active Fleet Riders</div>
+        <div class="kpi-value" id="kpiRidersActive">4 Online</div>
+        <div class="kpi-sub">2 In Transit · 2 Ready at Bay</div>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">❄️</div>
+      <div class="kpi-info">
+        <div class="kpi-label">Cold-Chain Compliance</div>
+        <div class="kpi-value" style="color: #38BDF8;">100% In-Spec</div>
+        <div class="kpi-sub">Deep-Freeze (-18°C) · Dairy (3.6°C)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="admin-main">
+
+    <!-- SECTION 1: DARK STORE PICKING QUEUE CONSOLE -->
+    <section>
+      <div class="section-head">
+        <h2>
+          <span>📦</span> Dark-Store Picking Queue Console
+        </h2>
+        <div class="section-tag" id="queueTotalBadge">Live SLA Countdown Active</div>
+      </div>
+
+      <div class="picking-queue-grid" id="pickingQueueGrid">
+        <!-- Rendered dynamically by script -->
+      </div>
+    </section>
+
+    <!-- SECTION 2: RIDER FLEET DISPATCH TABLE -->
+    <section>
+      <div class="section-head">
+        <h2>
+          <span>🛵</span> Hyperlocal Rider Fleet Dispatch Table
+        </h2>
+        <div class="section-tag">Ather &amp; Ola EV Fleet (100% Insulated Thermal Pods)</div>
+      </div>
+
+      <div class="fleet-table-container">
+        <table class="fleet-table">
+          <thead>
+            <tr>
+              <th>Rider Name &amp; EV</th>
+              <th>Status</th>
+              <th>Battery / Fuel</th>
+              <th>Cold-Chain Pod</th>
+              <th>Speed / Telemetry</th>
+              <th>Assigned Ticket</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="fleetTableBody">
+            <!-- Rendered dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 3: COLD-CHAIN TEMPERATURE LOGGER -->
+    <section>
+      <div class="section-head">
+        <h2>
+          <span>❄️</span> Cold-Chain Chill &amp; Freeze Temperature Logger
+        </h2>
+        <button style="background: #1E293B; border: 1px solid #334155; color: #E2E8F0; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;" onclick="logManualTempProbe()">
+          + Log Manual Probe Reading
+        </button>
+      </div>
+
+      <div class="cold-chain-grid" id="coldChainGrid">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- WHITE-LABEL OPERATOR CONTROLS -->
+    <div class="wl-admin-settings">
+      <div>
+        <div style="font-weight: 800; font-size: 13px; color: #F8FAFC;">Brand Personalizer &amp; WhatsApp Hotlink</div>
+        <div style="font-size: 11px; color: #94A3B8;">Overrides storefront &amp; dispatch routing parameters in real-time.</div>
+      </div>
+      <div class="wl-inputs">
+        <input type="text" id="adminBrandInput" class="wl-input-field" placeholder="Brand Name (e.g. Zepto Express)" value="FLASH GROCERY">
+        <input type="text" id="adminWaInput" class="wl-input-field" placeholder="Dispatch Phone (919847011223)" value="919847011223">
+        <button style="background: #22C55E; color: #0F172A; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 800; font-size: 12px; cursor: pointer;" onclick="saveWhiteLabelSettings()">Apply Brand</button>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // State
+    let queueOrders = [];
+    let riderFleet = [];
+    let countdownInterval = null;
+
+    // Fallback Initial Queue Orders
+    const initialSeedQueue = [
+      {
+        id: 'QC-4401',
+        customer_name: 'Rohan Mehta',
+        customer_phone: '919820334455',
+        delivery_address: 'Flat 402, Green Glen Apts, Indiranagar',
+        pincode: '560038',
+        order_status: 'PICKING',
+        picked_items_count: 1,
+        total_items_count: 3,
+        remaining_seconds: 112,
+        urgency_level: 'warning',
+        items: [
+          { id: 'ITM-01', product_name: 'Farm Fresh Hass Avocados (Pack of 2)', weight_label: 'Pack of 2', aisle_location: 'Zone A / Fresh-Produce / Bin 04', is_picked: 1 },
+          { id: 'ITM-02', product_name: 'Organic Cold-Pressed A2 Cow Milk 1L', weight_label: '1L', aisle_location: 'Zone B / Dairy-Chiller / Shelf 02', is_picked: 0 },
+          { id: 'ITM-03', product_name: 'Antibiotic-Free Chicken Breast Boneless', weight_label: '500g', aisle_location: 'Zone C / Meat-Freezer / Bin 12', is_picked: 0 }
+        ]
+      },
+      {
+        id: 'QC-4402',
+        customer_name: 'Dr. Anjali Rao',
+        customer_phone: '919845012345',
+        delivery_address: 'Villa 8, Palm Boulevard, Koramangala 4th Block',
+        pincode: '560034',
+        order_status: 'PICKING',
+        picked_items_count: 0,
+        total_items_count: 3,
+        remaining_seconds: 165,
+        urgency_level: 'normal',
+        items: [
+          { id: 'ITM-04', product_name: 'Tender Coconut Water 500ml', weight_label: '500ml', aisle_location: 'Zone B / Bev-Chiller / Bin 08', is_picked: 0 },
+          { id: 'ITM-05', product_name: 'Alphonso Mangoes Grade A (1kg)', weight_label: '1kg', aisle_location: 'Zone A / Tropical-Fruit / Bin 09', is_picked: 0 },
+          { id: 'ITM-06', product_name: 'Sourdough Brioche Loaf 400g', weight_label: '400g', aisle_location: 'Zone D / Bakery-Rack / Shelf 01', is_picked: 0 }
+        ]
+      },
+      {
+        id: 'QC-4399',
+        customer_name: 'Sreekumar Nair',
+        customer_phone: '919847011223',
+        delivery_address: 'Apt 2B, Skyline Ivy, Panampilly Nagar',
+        pincode: '682036',
+        order_status: 'OUT_FOR_DELIVERY',
+        rider_id: 'RDR-01',
+        picked_items_count: 3,
+        total_items_count: 3,
+        remaining_seconds: 0,
+        urgency_level: 'packed',
+        items: [
+          { id: 'ITM-07', product_name: 'Farm Fresh Hass Avocados (Pack of 2)', weight_label: 'Pack of 2', aisle_location: 'Zone A / Fresh-Produce / Bin 04', is_picked: 1 },
+          { id: 'ITM-08', product_name: 'Antibiotic-Free Chicken Breast Boneless', weight_label: '1kg', aisle_location: 'Zone C / Meat-Freezer / Bin 12', is_picked: 1 },
+          { id: 'ITM-09', product_name: 'Tender Coconut Water 500ml', weight_label: 'Twin Pack (500ml x 2)', aisle_location: 'Zone B / Bev-Chiller / Bin 08', is_picked: 1 }
+        ]
+      }
+    ];
+
+    const initialRiderFleet = [
+      { id: 'RDR-01', name: 'Shafeeq K.', phone: '919847011223', vehicle_no: 'KA-03-EM-9921', vehicle_type: 'Ather 450X EV', photo_url: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80', battery_pct: 92, status: 'IN_TRANSIT', bag_temp_c: 3.8, speed_kmh: 32, rating: 4.96, assigned_order: 'QC-4399' },
+      { id: 'RDR-02', name: 'Sunil Kumar', phone: '919880123456', vehicle_no: 'KA-04-EV-4412', vehicle_type: 'Ola S1 Pro EV', photo_url: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=200&q=80', battery_pct: 78, status: 'IDLE', bag_temp_c: 4.1, speed_kmh: 0, rating: 4.91, assigned_order: '—' },
+      { id: 'RDR-03', name: 'Arshad V.', phone: '919895033445', vehicle_no: 'KL-07-EQ-8819', vehicle_type: 'TVS iQube EV', photo_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80', battery_pct: 85, status: 'IN_TRANSIT', bag_temp_c: 3.5, speed_kmh: 30, rating: 4.88, assigned_order: 'QC-4398' },
+      { id: 'RDR-04', name: 'Vignesh R.', phone: '919740112288', vehicle_no: 'KA-05-EX-2290', vehicle_type: 'Bajaj Chetak EV', photo_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80', battery_pct: 64, status: 'IDLE', bag_temp_c: 4.0, speed_kmh: 0, rating: 4.95, assigned_order: '—' }
+    ];
+
+    let coldChainSensors = [
+      { id: 'S-01', zone: 'Deep Freeze Meat Vault', temp: -18.4, threshold: '-15°C', status: 'NORMAL', location: 'Zone C Aisle 04' },
+      { id: 'S-02', zone: 'Dairy & Protein Chiller', temp: 3.6, threshold: '5.0°C', status: 'NORMAL', location: 'Zone B Shelf 02' },
+      { id: 'S-03', zone: 'Fresh Produce Humid Chiller', temp: 6.8, threshold: '8.0°C', status: 'NORMAL', location: 'Zone A Bin 04' },
+      { id: 'S-04', zone: 'Insulated Rider Pod #01 (Shafeeq)', temp: 3.8, threshold: '6.0°C', status: 'NORMAL', location: 'KA-03-EM-9921' }
+    ];
+
+    async function loadData() {
+      try {
+        const queueRes = await fetch('/api/picker');
+        if (queueRes.ok) {
+          const qData = await queueRes.json();
+          if (qData.queue && qData.queue.length > 0) {
+            queueOrders = qData.queue;
+          } else {
+            queueOrders = initialSeedQueue;
+          }
+        } else {
+          queueOrders = initialSeedQueue;
+        }
+      } catch (e) {
+        queueOrders = initialSeedQueue;
+      }
+
+      try {
+        const fleetRes = await fetch('/api/dispatch');
+        if (fleetRes.ok) {
+          const fData = await fleetRes.json();
+          if (fData.riders && fData.riders.length > 0) {
+            riderFleet = fData.riders;
+          } else {
+            riderFleet = initialRiderFleet;
+          }
+        } else {
+          riderFleet = initialRiderFleet;
+        }
+      } catch (e) {
+        riderFleet = initialRiderFleet;
+      }
+
+      renderPickingQueue();
+      renderFleetTable();
+      renderColdChain();
+      startCountdownLoop();
+    }
+
+    function renderPickingQueue() {
+      const container = document.getElementById('pickingQueueGrid');
+      if (!container) return;
+
+      const activeCount = queueOrders.filter(o => o.order_status === 'PICKING').length;
+      document.getElementById('kpiActivePicking').textContent = `${activeCount} Orders`;
+
+      container.innerHTML = queueOrders.map(ord => {
+        const isPacked = ord.order_status === 'PACKED' || ord.order_status === 'OUT_FOR_DELIVERY';
+        const allItemsPicked = ord.items.every(i => i.is_picked);
+
+        const sec = ord.remaining_seconds || 120;
+        const m = Math.floor(sec / 60);
+        const s = sec % 60;
+        const timeDisplay = `${m}:${s < 10 ? '0' : ''}${s}`;
+
+        let timerClass = 'timer-normal';
+        if (sec <= 60) timerClass = 'timer-critical';
+        else if (sec <= 120) timerClass = 'timer-warning';
+
+        const itemsHtml = ord.items.map(item => `
+          <div class="pick-item-row ${item.is_picked ? 'picked' : ''}" onclick="toggleItemPick('${ord.id}', '${item.id}')">
+            <div class="pick-checkbox">${item.is_picked ? '✓' : ''}</div>
+            <div class="pick-item-meta">
+              <div class="bin-coord">📍 ${item.aisle_location}</div>
+              <div class="pick-item-name">${item.product_name}</div>
+              <div class="pick-item-weight">${item.weight_label}</div>
+            </div>
+          </div>
+        `).join('');
+
+        let actionBtnHtml = '';
+        if (ord.order_status === 'OUT_FOR_DELIVERY') {
+          actionBtnHtml = `<div style="text-align: center; font-size: 11px; font-weight: 800; color: #34D399; font-family: var(--font-mono, monospace);">🛵 DISPATCHED · RIDER EN ROUTE</div>`;
+        } else if (ord.order_status === 'PACKED') {
+          actionBtnHtml = `<button class="btn-pack-order" onclick="triggerRiderAssignment('${ord.id}')">ASSIGN TO RIDER &amp; DISPATCH 🛵</button>`;
+        } else {
+          actionBtnHtml = `<button class="btn-pack-order" onclick="packOrder('${ord.id}')">PACKED &amp; READY FOR RIDER ⚡</button>`;
+        }
+
+        return `
+          <div class="pick-ticket ${isPacked ? 'ticket-packed' : ''} ${sec <= 60 && !isPacked ? 'urgency-critical' : ''}" id="ticket-${ord.id}">
+            <div class="pick-ticket-head">
+              <div>
+                <div class="ticket-id">TICKET #${ord.id}</div>
+                <div class="ticket-customer">${ord.customer_name} • ${ord.pincode}</div>
+              </div>
+              <div class="ticket-timer-badge ${timerClass}">
+                ⏱️ ${isPacked ? 'PACKED' : timeDisplay}
+              </div>
+            </div>
+
+            <div class="pick-items-list">
+              ${itemsHtml}
+            </div>
+
+            <div>
+              ${actionBtnHtml}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function toggleItemPick(orderId, itemId) {
+      const ord = queueOrders.find(o => o.id === orderId);
+      if (!ord) return;
+      const item = ord.items.find(i => i.id === itemId);
+      if (!item) return;
+
+      item.is_picked = item.is_picked ? 0 : 1;
+      ord.picked_items_count = ord.items.filter(i => i.is_picked).length;
+
+      // Sync with server if available
+      try {
+        await fetch('/api/picker', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId, itemId, isPicked: !!item.is_picked })
+        });
+      } catch (e) {
+        console.warn('Sync pick state warning:', e);
+      }
+
+      renderPickingQueue();
+    }
+
+    async function packOrder(orderId) {
+      const ord = queueOrders.find(o => o.id === orderId);
+      if (!ord) return;
+
+      ord.items.forEach(i => { i.is_picked = 1; });
+      ord.picked_items_count = ord.items.length;
+      ord.order_status = 'PACKED';
+
+      try {
+        await fetch('/api/picker', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId, action: 'mark_packed' })
+        });
+      } catch (e) {
+        console.warn('Sync pack state warning:', e);
+      }
+
+      renderPickingQueue();
+    }
+
+    async function triggerRiderAssignment(orderId) {
+      // Find idle rider
+      const idleRider = riderFleet.find(r => r.status === 'IDLE') || riderFleet[0];
+      if (!idleRider) return;
+
+      try {
+        await fetch('/api/dispatch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId, riderId: idleRider.id })
+        });
+      } catch (e) {}
+
+      const ord = queueOrders.find(o => o.id === orderId);
+      if (ord) ord.order_status = 'OUT_FOR_DELIVERY';
+
+      idleRider.status = 'IN_TRANSIT';
+      idleRider.assigned_order = orderId;
+
+      renderPickingQueue();
+      renderFleetTable();
+    }
+
+    function renderFleetTable() {
+      const tbody = document.getElementById('fleetTableBody');
+      if (!tbody) return;
+
+      tbody.innerHTML = riderFleet.map(r => {
+        const isTransit = r.status === 'IN_TRANSIT';
+        const waMsg = encodeURIComponent(
+          `🛵 FLASH GROCERY: Order ${r.assigned_order || 'PICKUP'} assigned to you. Cold-Chain bag: ${r.bag_temp_c}°C. Deliver safely!`
+        );
+        const waLink = `https://wa.me/${r.phone}?text=${waMsg}`;
+
+        return `
+          <tr>
+            <td>
+              <div class="rider-cell">
+                <img class="rider-thumb" src="${r.photo_url}" alt="${r.name}">
+                <div>
+                  <div style="font-weight: 800; color: #F8FAFC;">${r.name}</div>
+                  <div style="font-size: 11px; color: #94A3B8; font-family: var(--font-mono, monospace);">${r.vehicle_no} (${r.vehicle_type})</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="rider-status-pill ${isTransit ? 'status-transit' : 'status-idle'}">
+                ${isTransit ? '● IN TRANSIT' : '○ IDLE AT HUB'}
+              </span>
+            </td>
+            <td>
+              <span style="font-family: var(--font-mono, monospace); font-weight: 800;">${r.battery_pct}%</span>
+              <span class="batt-bar"><span class="batt-fill" style="width: ${r.battery_pct}%;"></span></span>
+            </td>
+            <td>
+              <span style="font-family: var(--font-mono, monospace); font-weight: 800; color: #38BDF8;">❄️ ${r.bag_temp_c}°C</span>
+            </td>
+            <td>
+              <span style="font-family: var(--font-mono, monospace); font-size: 11px; color: #E2E8F0;">${r.speed_kmh} km/h • ⭐ ${r.rating}</span>
+            </td>
+            <td>
+              <span style="font-family: var(--font-mono, monospace); font-weight: 800; color: #F8FAFC;">${r.assigned_order || '—'}</span>
+            </td>
+            <td>
+              ${!isTransit ? `<button class="btn-action-dispatch" onclick="triggerRiderAssignment('QC-4401')">Dispatch</button>` : `<span style="font-size: 11px; color: #34D399; font-weight: 700;">Active 🛵</span>`}
+              <a href="${waLink}" target="_blank" class="btn-wa-alert">💬 WA Alert</a>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderColdChain() {
+      const container = document.getElementById('coldChainGrid');
+      if (!container) return;
+
+      container.innerHTML = coldChainSensors.map(s => `
+        <div class="sensor-card">
+          <div class="sensor-head">
+            <span>${s.location}</span>
+            <span class="sensor-status-tag">✓ ${s.status}</span>
+          </div>
+          <div style="font-size: 14px; font-weight: 700; color: #F8FAFC;">${s.zone}</div>
+          <div class="sensor-temp-display">${s.temp > 0 ? '+' : ''}${s.temp}°C</div>
+          <div style="font-size: 11px; color: #94A3B8;">Max Allowed Threshold: <strong>${s.threshold}</strong></div>
+        </div>
+      `).join('');
+    }
+
+    function logManualTempProbe() {
+      const temp = (3.5 + Math.random() * 0.6).toFixed(1);
+      coldChainSensors.push({
+        id: 'S-NEW',
+        zone: 'Dock Handheld Probe #02',
+        temp: parseFloat(temp),
+        threshold: '5.0°C',
+        status: 'NORMAL',
+        location: 'Bay 01 Loading Dock'
+      });
+      renderColdChain();
+    }
+
+    function startCountdownLoop() {
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        queueOrders.forEach(ord => {
+          if (ord.order_status === 'PICKING' && ord.remaining_seconds > 0) {
+            ord.remaining_seconds--;
+          }
+        });
+        renderPickingQueue();
+      }, 1000);
+    }
+
+    function saveWhiteLabelSettings() {
+      const brand = document.getElementById('adminBrandInput').value.trim();
+      const wa = document.getElementById('adminWaInput').value.trim();
+      const params = new URLSearchParams(window.location.search);
+      if (brand) params.set('brand', brand);
+      if (wa) {
+        params.set('wa', wa);
+        params.set('phone', wa);
+      }
+      window.location.search = params.toString();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadData();
+    });
+  </script>
 </body>
 </html>

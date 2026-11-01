@@ -3,185 +3,1905 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-wl-brand>FLASH GROCERY // 11-Minute Delivery</title>
+  <title data-wl-brand>FLASH GROCERY // 11-Minute Hyperlocal Delivery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="theme-tokens.css">
   <script src="whitelabel.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: var(--bg-main, #F1F5F9);
-      color: #0F172A;
+      background: var(--bg-main, #F8FAFC);
+      color: var(--text-main, #0F172A);
       font-family: var(--font-primary, 'Plus Jakarta Sans', sans-serif);
       height: 100vh;
       overflow: hidden;
       display: flex;
       flex-direction: column;
     }
+
+    /* ==========================================================================
+       TOP RADAR HEADER (Movement D: Zero-Hero Hyperlocal Header)
+       ========================================================================== */
     .top-radar {
-      height: 54px;
+      height: 60px;
       background: #FFFFFF;
-      border-bottom: 1px solid #E2E8F0;
+      border-bottom: 1px solid var(--border-color, #E2E8F0);
       padding: 0 20px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 50;
+      flex-shrink: 0;
     }
-    .eta-badge {
-      background: #0C831F;
-      color: #FFF;
-      font-family: var(--font-mono, monospace);
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .brand-logo {
       font-weight: 800;
-      font-size: 11px;
-      padding: 6px 12px;
-      border-radius: 999px;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+      color: var(--color-primary, #0C831F);
       display: flex;
       align-items: center;
       gap: 6px;
+      text-decoration: none;
     }
-
-    .app-shell {
-      display: grid;
-      grid-template-columns: 200px 1fr 320px;
-      flex: 1;
-      height: calc(100vh - 54px);
+    .brand-logo span {
+      background: var(--color-dark, #0F172A);
+      color: #FFFFFF;
+      font-size: 11px;
+      padding: 3px 6px;
+      border-radius: 4px;
+      margin-left: 4px;
+      font-family: var(--font-mono, monospace);
     }
-    @media (max-width: 900px) { .app-shell { grid-template-columns: 1fr; } }
-
-    .cat-rail {
-      background: #FFF;
-      border-right: 1px solid #E2E8F0;
-      padding: 16px;
+    .pincode-pill-btn {
       display: flex;
-      flex-direction: column;
+      align-items: center;
       gap: 8px;
+      background: #F1F5F9;
+      border: 1px solid #CBD5E1;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      transition: all 0.15s ease;
+      color: #1E293B;
     }
-    .cat-item {
-      padding: 10px 12px;
+    .pincode-pill-btn:hover {
+      background: #E2E8F0;
+      border-color: #94A3B8;
+    }
+    .pincode-pill-btn .eta-indicator {
+      color: var(--color-primary, #0C831F);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .search-box {
+      flex: 1;
+      max-width: 480px;
+      position: relative;
+    }
+    .search-input {
+      width: 100%;
+      height: 40px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
       border-radius: 8px;
-      font-weight: 600;
+      padding: 0 14px 0 38px;
       font-size: 13px;
-      color: #475569;
+      font-family: inherit;
+      color: #0F172A;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .search-input:focus {
+      border-color: var(--color-primary, #0C831F);
+      background: #FFFFFF;
+    }
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: #94A3B8;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-admin-link {
+      background: transparent;
+      border: 1px dashed var(--color-primary, #0C831F);
+      color: var(--color-primary, #0C831F);
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      font-family: var(--font-mono, monospace);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s ease;
+    }
+    .btn-admin-link:hover {
+      background: var(--color-primary-light, #E8F5E9);
+    }
+    .cart-pill-mobile-btn {
+      display: none;
+      background: var(--color-primary, #0C831F);
+      color: #FFFFFF;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
       cursor: pointer;
     }
-    .cat-item.active { background: #E8F5E9; color: #0C831F; font-weight: 700; }
 
-    .shelf-pane {
-      padding: 20px;
-      overflow-y: auto;
-      background: #F8FAFC;
+    /* ==========================================================================
+       3-PANE HYPERLOCAL APP SHELL (Movement D Architecture)
+       Pane 1: Left Category Rail (200px)
+       Pane 2: Center Fast Grid (1fr)
+       Pane 3: Right Sticky Cart & 15-Min Delivery Drawer (340px)
+       ========================================================================== */
+    .app-shell {
+      display: grid;
+      grid-template-columns: 210px 1fr 350px;
+      flex: 1;
+      height: calc(100vh - 60px);
+      overflow: hidden;
+      background: var(--bg-main, #F8FAFC);
     }
+
+    /* Pane 1: Left Category Rail */
+    .cat-rail {
+      background: #FFFFFF;
+      border-right: 1px solid var(--border-color, #E2E8F0);
+      overflow-y: auto;
+      padding: 16px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      user-select: none;
+    }
+    .cat-rail-title {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94A3B8;
+      padding: 0 10px 6px;
+    }
+    .cat-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .cat-btn:hover {
+      background: #F1F5F9;
+      color: #0F172A;
+    }
+    .cat-btn.active {
+      background: var(--color-primary-light, #E8F5E9);
+      color: var(--color-primary, #0C831F);
+      font-weight: 800;
+    }
+    .cat-btn .cat-icon {
+      font-size: 20px;
+      width: 26px;
+      text-align: center;
+    }
+    .cat-btn .cat-badge {
+      margin-left: auto;
+      font-size: 11px;
+      background: #E2E8F0;
+      color: #475569;
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-family: var(--font-mono, monospace);
+    }
+    .cat-btn.active .cat-badge {
+      background: var(--color-primary, #0C831F);
+      color: #FFFFFF;
+    }
+
+    /* Pane 2: Center Fast Grid */
+    .shelf-pane {
+      overflow-y: auto;
+      padding: 20px;
+      background: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .shelf-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .shelf-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .filter-pills-row {
+      display: flex;
+      gap: 6px;
+    }
+    .filter-chip {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #475569;
+      transition: all 0.15s ease;
+    }
+    .filter-chip:hover {
+      border-color: #94A3B8;
+      color: #0F172A;
+    }
+    .filter-chip.active {
+      background: #0F172A;
+      color: #FFFFFF;
+      border-color: #0F172A;
+    }
+
     .product-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
       gap: 16px;
     }
     .product-card {
-      background: #FFF;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      position: relative;
+    }
+    .product-card:hover {
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+      border-color: #CBD5E1;
+    }
+    .p-media {
+      position: relative;
+      width: 100%;
+      height: 140px;
+      background: #F1F5F9;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .p-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .product-card:hover .p-img {
+      transform: scale(1.04);
+    }
+    .p-chill-badge {
+      position: absolute;
+      bottom: 6px;
+      left: 6px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(4px);
+      color: #FFFFFF;
+      font-size: 9px;
+      font-weight: 700;
+      font-family: var(--font-mono, monospace);
+      padding: 3px 6px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .p-veg-dot {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      width: 16px;
+      height: 16px;
+      background: #FFFFFF;
+      border: 1px solid #10B981;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .p-veg-dot::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: #10B981;
+      border-radius: 50%;
+    }
+    .p-veg-dot.non-veg {
+      border-color: #EF4444;
+    }
+    .p-veg-dot.non-veg::after {
+      background: #EF4444;
+    }
+    .p-bin-tag {
+      font-size: 10px;
+      font-family: var(--font-mono, monospace);
+      font-weight: 700;
+      color: #64748B;
+      background: #F1F5F9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+    .p-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0F172A;
+      line-height: 1.3;
+      margin-bottom: 4px;
+      min-height: 36px;
+    }
+    .p-desc {
+      font-size: 11px;
+      color: #64748B;
+      line-height: 1.4;
+      margin-bottom: 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Instant Weight Selector Pills */
+    .weight-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+    .weight-pill {
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      color: #334155;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.1s ease;
+    }
+    .weight-pill:hover {
+      background: #F1F5F9;
+      border-color: #94A3B8;
+    }
+    .weight-pill.selected {
+      background: #E8F5E9;
+      border-color: var(--color-primary, #0C831F);
+      color: var(--color-primary, #0C831F);
+      font-weight: 800;
+    }
+
+    .p-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 8px;
+      border-top: 1px dashed #E2E8F0;
+    }
+    .price-col {
+      display: flex;
+      flex-direction: column;
+    }
+    .price-val {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0F172A;
+      font-family: var(--font-mono, monospace);
+    }
+    .mrp-val {
+      font-size: 11px;
+      color: #94A3B8;
+      text-decoration: line-through;
+    }
+
+    /* Cart Button & Instant Stepper */
+    .btn-add-cart {
+      background: var(--color-primary, #0C831F);
+      color: #FFFFFF;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      min-width: 72px;
+    }
+    .btn-add-cart:hover {
+      background: var(--color-primary-hover, #086a18);
+    }
+    .stepper-ctrl {
+      display: inline-flex;
+      align-items: center;
+      background: var(--color-primary, #0C831F);
+      border-radius: 8px;
+      overflow: hidden;
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 12px;
+    }
+    .stepper-btn {
+      background: transparent;
+      border: none;
+      color: #FFFFFF;
+      padding: 8px 10px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 14px;
+      transition: background 0.15s ease;
+    }
+    .stepper-btn:hover {
+      background: rgba(0, 0, 0, 0.15);
+    }
+    .stepper-qty {
+      padding: 0 6px;
+      min-width: 20px;
+      text-align: center;
+      font-family: var(--font-mono, monospace);
+    }
+
+    /* Pane 3: Right Sticky Cart & 15-Min Delivery Drawer */
+    .cart-pane {
+      background: #FFFFFF;
+      border-left: 1px solid var(--border-color, #E2E8F0);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      overflow: hidden;
+    }
+    .cart-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color, #E2E8F0);
+      background: #FFFFFF;
+    }
+    .cart-header-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cart-sla-tag {
+      font-size: 11px;
+      font-family: var(--font-mono, monospace);
+      color: var(--color-primary, #0C831F);
+      background: var(--color-primary-light, #E8F5E9);
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-weight: 800;
+    }
+
+    /* Dynamic Free Delivery Progress Bar */
+    .free-delivery-bar {
+      margin-top: 12px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      padding: 10px 12px;
+      border-radius: 8px;
+    }
+    .fd-text {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1E293B;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .fd-meter {
+      height: 6px;
+      background: #E2E8F0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .fd-fill {
+      height: 100%;
+      background: var(--color-primary, #0C831F);
+      width: 0%;
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .fd-fill.complete {
+      background: #10B981;
+    }
+
+    .cart-items-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .cart-empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #94A3B8;
+    }
+    .cart-empty-icon {
+      font-size: 42px;
+      margin-bottom: 8px;
+    }
+    .cart-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #F1F5F9;
+    }
+    .ci-info {
+      flex: 1;
+      padding-right: 12px;
+    }
+    .ci-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 2px;
+    }
+    .ci-weight {
+      font-size: 11px;
+      color: #64748B;
+      font-family: var(--font-mono, monospace);
+    }
+    .ci-pricing {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+    .ci-total {
+      font-size: 13px;
+      font-weight: 800;
+      font-family: var(--font-mono, monospace);
+      color: #0F172A;
+    }
+
+    .cart-footer {
+      padding: 16px 20px;
+      background: #F8FAFC;
+      border-top: 1px solid var(--border-color, #E2E8F0);
+    }
+    .bill-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #64748B;
+      margin-bottom: 6px;
+    }
+    .bill-row.total-row {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0F172A;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #E2E8F0;
+    }
+    .delivery-destination-bar {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      font-size: 11px;
+      color: #475569;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btn-checkout {
+      width: 100%;
+      background: var(--color-primary, #0C831F);
+      color: #FFFFFF;
+      border: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(12, 131, 31, 0.25);
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+    .btn-checkout:hover {
+      background: var(--color-primary-hover, #086a18);
+      transform: translateY(-1px);
+    }
+    .btn-checkout:disabled {
+      background: #CBD5E1;
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ==========================================================================
+       MODALS: Pincode Switcher, Cashfree UPI Express, Live Rider GPS Simulation
+       ========================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-backdrop.open {
+      display: flex;
+    }
+    .modal-panel {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 520px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+      border: 1px solid var(--border-color, #E2E8F0);
+      animation: modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalPop {
+      from { transform: scale(0.96); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-head {
+      padding: 16px 20px;
+      background: #F8FAFC;
+      border-bottom: 1px solid #E2E8F0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-head h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0F172A;
+    }
+    .btn-close-modal {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      color: #94A3B8;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .btn-close-modal:hover { color: #0F172A; }
+    .modal-body {
+      padding: 20px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    /* Pincode chips */
+    .quick-pincode-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .pin-choice-btn {
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      padding: 10px 12px;
+      border-radius: 10px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .pin-choice-btn:hover, .pin-choice-btn.active {
+      border-color: var(--color-primary, #0C831F);
+      background: var(--color-primary-light, #E8F5E9);
+    }
+    .pin-choice-code { font-size: 13px; font-weight: 800; color: #0F172A; font-family: var(--font-mono, monospace); }
+    .pin-choice-sub { font-size: 11px; color: #64748B; margin-top: 2px; }
+
+    /* Live Rider GPS Simulation Widget */
+    .gps-map-frame {
+      width: 100%;
+      height: 240px;
+      background: #0B132B;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 1px solid #1E293B;
+    }
+    .gps-svg-canvas {
+      width: 100%;
+      height: 100%;
+    }
+    .scooter-marker {
+      transition: all 0.6s linear;
+    }
+    .radar-pulse-ring {
+      animation: pulseRadar 2s infinite ease-out;
+      transform-origin: center;
+    }
+    @keyframes pulseRadar {
+      0% { r: 6; opacity: 1; }
+      100% { r: 24; opacity: 0; }
+    }
+    .rider-card-info {
+      background: #F8FAFC;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 14px;
+      margin-bottom: 16px;
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
     }
-    .p-img { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
-    .p-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
-    .p-weight { font-size: 12px; color: #64748B; margin-bottom: 8px; }
-    .p-price { font-weight: 800; font-size: 15px; color: #0C831F; }
-
-    .add-btn {
-      background: #0C831F;
-      color: #FFF;
-      border: none;
-      padding: 8px;
-      border-radius: 6px;
-      font-weight: 700;
+    .rider-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--color-primary, #0C831F);
+    }
+    .rider-meta { flex: 1; }
+    .rider-name { font-size: 14px; font-weight: 800; color: #0F172A; }
+    .rider-veh { font-size: 11px; color: #64748B; font-family: var(--font-mono, monospace); }
+    .rider-rating { font-size: 11px; font-weight: 700; color: #0C831F; }
+    .cold-chain-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: #E0F2FE;
+      border: 1px solid #BAE6FD;
+      border-radius: 8px;
       font-size: 12px;
-      cursor: pointer;
+      font-weight: 700;
+      color: #0369A1;
+      font-family: var(--font-mono, monospace);
+      margin-bottom: 16px;
+    }
+    .live-eta-countdown {
+      background: #0F172A;
+      color: #FFFFFF;
+      padding: 12px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .eta-timer-big {
+      font-size: 28px;
+      font-weight: 800;
+      font-family: var(--font-mono, monospace);
+      color: #22C55E;
+      letter-spacing: 1px;
     }
 
-    .cart-pane {
-      background: #FFF;
-      border-left: 1px solid #E2E8F0;
-      padding: 20px;
+    /* UPI QR Simulation Section */
+    .upi-qr-box {
+      text-align: center;
+      padding: 16px;
+      background: #F8FAFC;
+      border: 1px dashed #CBD5E1;
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+    .qr-visual {
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 12px;
+      background: #FFFFFF;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Floating WhatsApp Concierge */
+    .floating-wa-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #25D366;
+      color: #FFFFFF;
+      padding: 8px 14px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4);
+      z-index: 40;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+      .app-shell { grid-template-columns: 180px 1fr 310px; }
+    }
+    @media (max-width: 860px) {
+      .app-shell { grid-template-columns: 1fr; }
+      .cat-rail { display: none; }
+      .cart-pane {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        height: 85vh;
+        z-index: 60;
+        transform: translateY(105%);
+        transition: transform 0.3s ease;
+        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
+      }
+      .cart-pane.mobile-open {
+        transform: translateY(0);
+      }
+      .cart-pill-mobile-btn { display: block; }
     }
   </style>
 </head>
-<body data-layout-archetype="hyperlocal-quick-commerce">
-  <div class="top-radar">
-    <div style="font-weight:800; font-size:18px; color:#0C831F;" data-wl-brand>FLASH GROCERY</div>
-    <div class="eta-badge">⚡ 11 MINS TO PINCODE 560034</div>
-    <a href="admin.html" style="color:#0C831F; text-decoration:none; font-size:12px; font-weight:700;">[ PACKER QUEUE ]</a>
+<body data-layout-archetype="hyperlocal-3pane-app">
+
+  <!-- TOP RADAR HEADER -->
+  <header class="top-radar">
+    <div class="brand-section">
+      <a href="index.html" class="brand-logo" data-wl-brand>
+        FLASH GROCERY <span>11-MIN</span>
+      </a>
+      <button class="pincode-pill-btn" onclick="openPincodeModal()">
+        <span class="eta-indicator">⚡ <strong id="topRadarEta">11 MINS</strong></span>
+        <span>to <strong id="topRadarPin">560038</strong> (<span id="topRadarArea">Indiranagar</span>)</span>
+        <span style="font-size: 10px; color: #94A3B8;">▼</span>
+      </button>
+    </div>
+
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="itemSearchInput" placeholder="Search Haas Avocados, A2 Milk, Chicken Breast, Mangoes..." oninput="handleSearch(this.value)">
+    </div>
+
+    <div class="top-actions">
+      <a href="admin.html" class="btn-admin-link">
+        <span>⚙️</span> DARK-STORE PICKER ADMIN
+      </a>
+      <button class="cart-pill-mobile-btn" onclick="toggleMobileCart()">
+        🛒 <span id="mobileCartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 3-PANE HYPERLOCAL APP SHELL -->
+  <main class="app-shell">
+
+    <!-- PANE 1: LEFT CATEGORY RAIL (6 Categories) -->
+    <aside class="cat-rail" id="categoryRail">
+      <div class="cat-rail-title">Aisle Index</div>
+      <button class="cat-btn active" data-cat="all" onclick="selectCategory('all', this)">
+        <span class="cat-icon">⚡</span>
+        <span>All Aisles</span>
+        <span class="cat-badge" id="badge-all">10</span>
+      </button>
+      <button class="cat-btn" data-cat="fresh-produce" onclick="selectCategory('fresh-produce', this)">
+        <span class="cat-icon">🥑</span>
+        <span>Fresh Produce</span>
+        <span class="cat-badge">1</span>
+      </button>
+      <button class="cat-btn" data-cat="dairy-breakfast" onclick="selectCategory('dairy-breakfast', this)">
+        <span class="cat-icon">🥛</span>
+        <span>Dairy & Breakfast</span>
+        <span class="cat-badge">2</span>
+      </button>
+      <button class="cat-btn" data-cat="meat-seafood" onclick="selectCategory('meat-seafood', this)">
+        <span class="cat-icon">🍗</span>
+        <span>Meat & Seafood</span>
+        <span class="cat-badge">2</span>
+      </button>
+      <button class="cat-btn" data-cat="cold-beverages" onclick="selectCategory('cold-beverages', this)">
+        <span class="cat-icon">🥥</span>
+        <span>Cold Beverages</span>
+        <span class="cat-badge">2</span>
+      </button>
+      <button class="cat-btn" data-cat="bakery-artisan" onclick="selectCategory('bakery-artisan', this)">
+        <span class="cat-icon">🍞</span>
+        <span>Bakery & Artisan</span>
+        <span class="cat-badge">2</span>
+      </button>
+      <button class="cat-btn" data-cat="seasonal-fruits" onclick="selectCategory('seasonal-fruits', this)">
+        <span class="cat-icon">🥭</span>
+        <span>Seasonal Fruits</span>
+        <span class="cat-badge">1</span>
+      </button>
+    </aside>
+
+    <!-- PANE 2: CENTER FAST GRID -->
+    <section class="shelf-pane" id="shelfPane">
+      <div class="shelf-header">
+        <div>
+          <h1 class="shelf-title">
+            <span id="activeShelfName">Instant 11-Min Delivery Shelf</span>
+          </h1>
+          <p style="font-size: 12px; color: #64748B;" data-wl-tagline>Direct from Indiranagar Hub #04 cold-chain warehouse</p>
+        </div>
+        <div class="filter-pills-row">
+          <button class="filter-chip active" onclick="applyStorageFilter('all', this)">All Items</button>
+          <button class="filter-chip" onclick="applyStorageFilter('chilled', this)">❄️ Chilled 4°C</button>
+          <button class="filter-chip" onclick="applyStorageFilter('frozen', this)">🧊 Frozen -18°C</button>
+          <button class="filter-chip" onclick="applyStorageFilter('ambient', this)">🌿 Fresh Ambient</button>
+        </div>
+      </div>
+
+      <!-- Compact Product Grid -->
+      <div class="product-grid" id="productGrid">
+        <!-- Rendered dynamically by script -->
+      </div>
+    </section>
+
+    <!-- PANE 3: RIGHT STICKY CART & 15-MIN DELIVERY DRAWER -->
+    <aside class="cart-pane" id="cartPane">
+      <div>
+        <div class="cart-header">
+          <div class="cart-header-title">
+            <span>⚡ Flash Delivery Cart</span>
+            <span class="cart-sla-tag" id="cartEtaTag">11 MINS</span>
+          </div>
+
+          <!-- Dynamic Free Delivery Progress Bar -->
+          <div class="free-delivery-bar">
+            <div class="fd-text">
+              <span id="fdTextLabel">Add ₹65 more for FREE delivery</span>
+              <strong id="fdTarget">₹199 Min</strong>
+            </div>
+            <div class="fd-meter">
+              <div class="fd-fill" id="fdMeterFill" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scrollable items -->
+        <div class="cart-items-scroll" id="cartItemsList">
+          <div class="cart-empty-state">
+            <div class="cart-empty-icon">🛍️</div>
+            <div style="font-weight: 700; color: #475569; margin-bottom: 4px;">Your flash basket is empty</div>
+            <div style="font-size: 12px;">Add avocados, milk, or fresh brioche to trigger 11-min dark store dispatch!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sticky Bill Footer -->
+      <div class="cart-footer">
+        <div class="bill-row">
+          <span>Items Subtotal</span>
+          <span id="billSubtotal" style="font-family: var(--font-mono, monospace);">₹0</span>
+        </div>
+        <div class="bill-row">
+          <span>Delivery Partner Fee (11-min SLA)</span>
+          <span id="billDeliveryFee" style="font-family: var(--font-mono, monospace);">₹25</span>
+        </div>
+        <div class="bill-row">
+          <span>Cold-Chain Insulated Bag & Handling</span>
+          <span id="billHandlingFee" style="font-family: var(--font-mono, monospace);">₹4</span>
+        </div>
+        <div class="bill-row total-row">
+          <span>To Pay:</span>
+          <span id="billTotal" style="color: var(--color-primary, #0C831F); font-family: var(--font-mono, monospace);">₹0</span>
+        </div>
+
+        <div class="delivery-destination-bar">
+          <div>
+            <strong>📍 Drop:</strong> <span id="dropAddressLabel">Apt 402, 100ft Rd, 560038</span>
+          </div>
+          <button style="border: none; background: none; color: var(--color-primary, #0C831F); font-size: 11px; font-weight: 700; cursor: pointer;" onclick="openPincodeModal()">Change</button>
+        </div>
+
+        <button class="btn-checkout" id="checkoutBtn" onclick="initiateCheckout()" disabled>
+          <span>PROCEED TO 11-MIN PAY ⚡</span>
+        </button>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <a id="floatingWaBtn" href="https://wa.me/919847011223?text=Hello%20Flash%20Grocery,%20I%20have%20an%20inquiry" target="_blank" class="floating-wa-btn">
+    <span>💬 WhatsApp Support</span>
+  </a>
+
+  <!-- MODAL 1: PINCODE SWITCHER -->
+  <div class="modal-backdrop" id="pincodeModal">
+    <div class="modal-panel">
+      <div class="modal-head">
+        <h3>⚡ Select 10-15 Min Delivery Pincode</h3>
+        <button class="btn-close-modal" onclick="closePincodeModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13px; color: #64748B; margin-bottom: 12px;">
+          Choose your neighborhood dark-store cluster for instant delivery:
+        </p>
+        <div class="quick-pincode-grid">
+          <button class="pin-choice-btn active" onclick="setAppPincode('560038', 'Indiranagar 100ft Rd', 11)">
+            <div class="pin-choice-code">560038 • Indiranagar</div>
+            <div class="pin-choice-sub">⚡ 11 mins · Hub #04</div>
+          </button>
+          <button class="pin-choice-btn" onclick="setAppPincode('560034', 'Koramangala 4th Block', 12)">
+            <div class="pin-choice-code">560034 • Koramangala</div>
+            <div class="pin-choice-sub">⚡ 12 mins · Hub #04</div>
+          </button>
+          <button class="pin-choice-btn" onclick="setAppPincode('560008', 'Ulsoor / Halasuru', 13)">
+            <div class="pin-choice-code">560008 • Ulsoor</div>
+            <div class="pin-choice-sub">⚡ 13 mins · Hub #04</div>
+          </button>
+          <button class="pin-choice-btn" onclick="setAppPincode('560001', 'MG Road / Shivaji Nagar', 15)">
+            <div class="pin-choice-code">560001 • MG Road</div>
+            <div class="pin-choice-sub">⚡ 15 mins · Hub #04</div>
+          </button>
+          <button class="pin-choice-btn" onclick="setAppPincode('682036', 'Panampilly Nagar, Kochi', 12)">
+            <div class="pin-choice-code">682036 • Panampilly</div>
+            <div class="pin-choice-sub">⚡ 12 mins · Kochi Hub</div>
+          </button>
+          <button class="pin-choice-btn" onclick="setAppPincode('682030', 'Kakkanad InfoPark Zone', 14)">
+            <div class="pin-choice-code">682030 • InfoPark</div>
+            <div class="pin-choice-sub">⚡ 14 mins · Kochi Hub</div>
+          </button>
+        </div>
+
+        <div style="margin-top: 14px; display: flex; gap: 8px;">
+          <input type="text" id="customPinInput" placeholder="Enter custom 6-digit Pincode" style="flex: 1; padding: 10px 12px; border: 1px solid #CBD5E1; border-radius: 8px; font-family: var(--font-mono, monospace); outline: none;">
+          <button style="background: var(--color-primary, #0C831F); color: #FFF; border: none; padding: 0 16px; border-radius: 8px; font-weight: 700; cursor: pointer;" onclick="checkCustomPin()">Check</button>
+        </div>
+        <div id="pinAlertMsg" style="margin-top: 8px; font-size: 12px;"></div>
+      </div>
+    </div>
   </div>
 
-  <div class="app-shell">
-    <div class="cat-rail">
-      <div class="cat-item active">Fresh Produce</div>
-      <div class="cat-item">Dairy & Breakfast</div>
-      <div class="cat-item">Cold Pressed Juices</div>
-      <div class="cat-item">Bakery & Cookies</div>
-    </div>
+  <!-- MODAL 2: CASHFREE UPI QR CHECKOUT -->
+  <div class="modal-backdrop" id="checkoutModal">
+    <div class="modal-panel">
+      <div class="modal-head">
+        <h3>⚡ Cashfree Express UPI Checkout</h3>
+        <button class="btn-close-modal" onclick="closeCheckoutModal()">×</button>
+      </div>
+      <div class="modal-body" id="upiQrSection">
+        <div class="upi-qr-box">
+          <div style="font-size: 11px; font-weight: 700; color: #64748B; margin-bottom: 6px;">SCAN VIA ANY UPI APP (GPAY / PHONEPE / PAYTM)</div>
+          <div class="qr-visual">
+            <!-- Simulated Crisp SVG QR Code -->
+            <svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+              <rect width="140" height="140" fill="#FFFFFF"/>
+              <!-- Position Markers -->
+              <rect x="10" y="10" width="35" height="35" fill="#0F172A" rx="4"/>
+              <rect x="17" y="17" width="21" height="21" fill="#FFFFFF" rx="2"/>
+              <rect x="23" y="23" width="9" height="9" fill="#0C831F"/>
 
-    <div class="shelf-pane">
-      <div class="product-grid">
-        <div class="product-card">
-          <img class="p-img" src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=400&q=80" alt="Avocados">
-          <div>
-            <div class="p-title">Hass Avocados (2 pcs)</div>
-            <div class="p-weight">500g • Ripened</div>
-            <div class="p-price">₹189.00</div>
+              <rect x="95" y="10" width="35" height="35" fill="#0F172A" rx="4"/>
+              <rect x="102" y="17" width="21" height="21" fill="#FFFFFF" rx="2"/>
+              <rect x="108" y="23" width="9" height="9" fill="#0C831F"/>
+
+              <rect x="10" y="95" width="35" height="35" fill="#0F172A" rx="4"/>
+              <rect x="17" y="102" width="21" height="21" fill="#FFFFFF" rx="2"/>
+              <rect x="23" y="108" width="9" height="9" fill="#0C831F"/>
+
+              <!-- QR Matrix Noise Simulation -->
+              <rect x="52" y="15" width="8" height="8" fill="#0F172A"/>
+              <rect x="68" y="15" width="16" height="8" fill="#0F172A"/>
+              <rect x="52" y="32" width="24" height="8" fill="#0F172A"/>
+              <rect x="80" y="32" width="8" height="8" fill="#0F172A"/>
+
+              <rect x="15" y="55" width="10" height="10" fill="#0F172A"/>
+              <rect x="35" y="55" width="10" height="20" fill="#0F172A"/>
+              <rect x="55" y="55" width="30" height="10" fill="#0C831F"/>
+              <rect x="95" y="55" width="15" height="10" fill="#0F172A"/>
+              <rect x="115" y="55" width="10" height="20" fill="#0F172A"/>
+
+              <rect x="15" y="75" width="20" height="10" fill="#0F172A"/>
+              <rect x="50" y="75" width="10" height="15" fill="#0F172A"/>
+              <rect x="70" y="70" width="15" height="20" fill="#0C831F"/>
+              <rect x="95" y="75" width="20" height="10" fill="#0F172A"/>
+
+              <rect x="52" y="100" width="12" height="10" fill="#0F172A"/>
+              <rect x="72" y="100" width="20" height="15" fill="#0F172A"/>
+              <rect x="100" y="100" width="25" height="10" fill="#0F172A"/>
+              <rect x="52" y="118" width="30" height="12" fill="#0F172A"/>
+              <rect x="90" y="118" width="10" height="12" fill="#0C831F"/>
+            </svg>
           </div>
-          <button class="add-btn" onclick="addToCart('Hass Avocados', 189)">+ ADD</button>
-        </div>
-        <div class="product-card">
-          <img class="p-img" src="https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=400&q=80" alt="Organic Milk">
-          <div>
-            <div class="p-title">A2 Organic Whole Milk</div>
-            <div class="p-weight">1 Liter Pouch</div>
-            <div class="p-price">₹84.00</div>
+          <div style="font-size: 13px; font-weight: 800; font-family: var(--font-mono, monospace); color: #0F172A;">
+            UPI ID: freshco.express@icici
           </div>
-          <button class="add-btn" onclick="addToCart('A2 Organic Milk', 84)">+ ADD</button>
-        </div>
-        <div class="product-card">
-          <img class="p-img" src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=400&q=80" alt="Sourdough">
-          <div>
-            <div class="p-title">Artisan Sourdough Loaf</div>
-            <div class="p-weight">400g • Fresh Baked</div>
-            <div class="p-price">₹140.00</div>
+          <div style="font-size: 16px; font-weight: 800; color: var(--color-primary, #0C831F); margin-top: 4px;" id="modalPayAmount">
+            Pay ₹0.00
           </div>
-          <button class="add-btn" onclick="addToCart('Artisan Sourdough', 140)">+ ADD</button>
         </div>
+
+        <div style="background: #F1F5F9; border-radius: 8px; padding: 12px; font-size: 12px; margin-bottom: 16px;">
+          <div><strong>Order Ticket:</strong> <span id="modalOrderId" style="font-family: var(--font-mono, monospace);">QC-4410</span></div>
+          <div><strong>Delivery SLA:</strong> 11-15 Mins to <span id="modalPinTarget">560038</span></div>
+          <div><strong>Dark-Store Hub:</strong> Indiranagar Cold-Chain Hub #04</div>
+        </div>
+
+        <button style="width: 100%; background: #0C831F; color: #FFF; border: none; padding: 14px; border-radius: 10px; font-size: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="confirmSimulatedPayment()">
+          <span>SIMULATE 1-TAP UPI PAYMENT SUCCESS ⚡</span>
+        </button>
       </div>
     </div>
+  </div>
 
-    <div class="cart-pane">
-      <div>
-        <div style="font-weight:800; font-size:16px; margin-bottom:12px;">Live Cart (11-Min Flash)</div>
-        <div id="cartList" style="font-size:13px; color:#64748B;">No items added yet.</div>
+  <!-- MODAL 3: LIVE RIDER GPS MAP SIMULATION -->
+  <div class="modal-backdrop" id="riderGpsModal">
+    <div class="modal-panel" style="max-width: 580px;">
+      <div class="modal-head">
+        <h3>🛵 Live Rider GPS & Cold-Chain Tracker</h3>
+        <button class="btn-close-modal" onclick="closeRiderGpsModal()">×</button>
       </div>
-      <div>
-        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:16px; margin-bottom:12px;">
-          <span>To Pay:</span>
-          <span id="cartSum">₹0.00</span>
+      <div class="modal-body">
+        
+        <!-- Live Countdown -->
+        <div class="live-eta-countdown">
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #94A3B8;">Estimated Time of Arrival</div>
+          <div class="eta-timer-big" id="gpsLiveTimer">11:42 MINS</div>
+          <div style="font-size: 11px; color: #E2E8F0;" id="gpsMilestoneText">🛵 Rider Shafeeq is in transit via 100ft Road</div>
         </div>
-        <button style="width:100%; background:#0C831F; color:#FFF; border:none; padding:14px; border-radius:8px; font-weight:800; cursor:pointer;" onclick="alert('Order dispatched! Rider assigned in 2 mins.')">SLIDE TO DELIVER ⚡</button>
+
+        <!-- SVG Animated Vector Map -->
+        <div class="gps-map-frame" id="svgMapContainer">
+          <svg class="gps-svg-canvas" viewBox="0 0 500 240" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#0C831F"/>
+                <stop offset="100%" stop-color="#22C55E"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Map background street grid -->
+            <path d="M 0,40 L 500,40 M 0,90 L 500,90 M 0,150 L 500,150 M 0,200 L 500,200" stroke="#1E293B" stroke-width="1.5"/>
+            <path d="M 60,0 L 60,240 M 140,0 L 140,240 M 230,0 L 230,240 M 340,0 L 340,240 M 440,0 L 440,240" stroke="#1E293B" stroke-width="1.5"/>
+
+            <!-- Route Curve from Hub (50, 180) to Customer (440, 60) -->
+            <path id="deliveryRoutePath" d="M 70,180 C 140,180 180,100 260,110 S 370,60 430,60" fill="none" stroke="url(#routeGradient)" stroke-width="4" stroke-dasharray="6,4"/>
+
+            <!-- Origin: Dark Store Hub Pin -->
+            <g transform="translate(70, 180)">
+              <circle r="12" fill="#0C831F" opacity="0.3" class="radar-pulse-ring"/>
+              <circle r="7" fill="#0C831F"/>
+              <text x="-25" y="24" fill="#E2E8F0" font-size="10" font-family="monospace" font-weight="bold">HUB #04</text>
+            </g>
+
+            <!-- Destination: Customer Pin -->
+            <g transform="translate(430, 60)">
+              <circle r="12" fill="#EF4444" opacity="0.3" class="radar-pulse-ring"/>
+              <circle r="7" fill="#EF4444"/>
+              <text x="-35" y="24" fill="#E2E8F0" font-size="10" font-family="monospace" font-weight="bold">DESTINATION</text>
+            </g>
+
+            <!-- Moving Delivery Scooter Marker -->
+            <g id="animatedScooterMarker" class="scooter-marker" transform="translate(160, 150)">
+              <circle r="14" fill="#FFFFFF" stroke="#0C831F" stroke-width="3"/>
+              <text x="-8" y="5" font-size="12">🛵</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Cold-Chain Insulated Bag Telemetry -->
+        <div class="cold-chain-indicator">
+          <span>❄️</span>
+          <span>COLD-CHAIN INSULATED BAG: <strong>3.8°C (Optimal Dairy & Meat Chill)</strong></span>
+        </div>
+
+        <!-- Rider Profile Card -->
+        <div class="rider-card-info">
+          <img class="rider-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80" alt="Rider Shafeeq">
+          <div class="rider-meta">
+            <div class="rider-name">Shafeeq K.</div>
+            <div class="rider-veh">KA-03-EM-9921 • Ather 450X EV (92% Batt)</div>
+            <div class="rider-rating">⭐ 4.96 (2,400+ deliveries)</div>
+          </div>
+          <a href="tel:919847011223" style="background: #0F172A; color: #FFF; text-decoration: none; padding: 8px 12px; border-radius: 8px; font-size: 11px; font-weight: 800;">CALL</a>
+        </div>
+
+        <!-- Milestone Stepper -->
+        <div style="font-size: 12px; color: #475569; display: flex; flex-direction: column; gap: 6px;">
+          <div style="color: #0C831F; font-weight: 700;">✓ Order Placed & Payment Verified (Cashfree UPI)</div>
+          <div style="color: #0C831F; font-weight: 700;">✓ Picked in 1.8 mins at Indiranagar Dark-Store</div>
+          <div style="color: #0C831F; font-weight: 700;">✓ Dispatched in Insulated Thermal Pod (-18°C / 4°C spec)</div>
+          <div style="color: #0F172A; font-weight: 800;">🛵 Arriving at your doorstep in <span id="gpsStepRemaining">11 mins</span></div>
+        </div>
+
       </div>
     </div>
   </div>
 
   <script>
-    let tot = 0;
-    function addToCart(title, price) {
-      tot += price;
-      document.getElementById('cartList').innerHTML = '<div>• ' + title + ' — ₹' + price + '</div>';
-      document.getElementById('cartSum').textContent = '₹' + tot + '.00';
+    // Local application state
+    let activePincode = '560038';
+    let activeAreaName = 'Indiranagar 100ft Rd';
+    let activeEtaMins = 11;
+    let minFreeDeliveryThreshold = 199;
+    let deliveryPartnerFee = 25;
+    let handlingFee = 4;
+
+    let catalogProducts = [];
+    let selectedVariants = {}; // prodId -> weightIndex
+    let cart = {}; // cartKey -> { prodId, weightLabel, price, retailPrice, name, qty, imageUrl, aisleLocation }
+
+    // Fallback seed catalog for offline or instant render
+    const fallbackCatalog = [
+      {
+        id: 'PRD-AVO-01',
+        slug: 'farm-fresh-hass-avocados',
+        name: 'Farm Fresh Hass Avocados (Pack of 2)',
+        category_id: 'cat-produce',
+        category_name: 'Fresh Produce',
+        description: 'Imported Haas avocados, perfectly ripened and creamy. Rich in heart-healthy monounsaturated fatty acids.',
+        image_url: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80',
+        storage_type: 'chilled',
+        chill_temp_c: 7.5,
+        aisle_location: 'Zone A / Fresh-Produce / Bin 04',
+        is_veg: 1,
+        weights: [
+          { weight_label: 'Pack of 2', price: 189, retail_price: 240, stock_count: 34, is_default: 1 },
+          { weight_label: 'Pack of 4', price: 359, retail_price: 460, stock_count: 18, is_default: 0 }
+        ]
+      },
+      {
+        id: 'PRD-MLK-02',
+        slug: 'organic-cold-pressed-a2-cow-milk-1l',
+        name: 'Organic Cold-Pressed A2 Cow Milk 1L',
+        category_id: 'cat-dairy',
+        category_name: 'Dairy & Breakfast',
+        description: 'Farm-bottled single-origin Gir cow whole milk. Chilled immediately at 3.6°C to preserve enzymatic vitality.',
+        image_url: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=600&q=80',
+        storage_type: 'chilled',
+        chill_temp_c: 3.6,
+        aisle_location: 'Zone B / Dairy-Chiller / Shelf 02',
+        is_veg: 1,
+        weights: [
+          { weight_label: '500ml', price: 45, retail_price: 55, stock_count: 60, is_default: 0 },
+          { weight_label: '1L', price: 84, retail_price: 100, stock_count: 85, is_default: 1 },
+          { weight_label: '2L Family Pack', price: 160, retail_price: 195, stock_count: 24, is_default: 0 }
+        ]
+      },
+      {
+        id: 'PRD-COC-03',
+        slug: 'tender-coconut-water-500ml',
+        name: 'Tender Coconut Water 500ml',
+        category_id: 'cat-beverages',
+        category_name: 'Cold Beverages',
+        description: '100% natural Pollachi tender coconut water, cold-bio-filtered with zero added sugar and natural electrolytes.',
+        image_url: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=600&q=80',
+        storage_type: 'chilled',
+        chill_temp_c: 4.0,
+        aisle_location: 'Zone B / Bev-Chiller / Bin 08',
+        is_veg: 1,
+        weights: [
+          { weight_label: '250ml', price: 40, retail_price: 50, stock_count: 42, is_default: 0 },
+          { weight_label: '500ml', price: 65, retail_price: 80, stock_count: 50, is_default: 1 },
+          { weight_label: 'Twin Pack (500ml x 2)', price: 120, retail_price: 150, stock_count: 20, is_default: 0 }
+        ]
+      },
+      {
+        id: 'PRD-CHK-04',
+        slug: 'antibiotic-free-chicken-breast-boneless',
+        name: 'Antibiotic-Free Chicken Breast Boneless (500g / 1kg)',
+        category_id: 'cat-meat',
+        category_name: 'Meat & Seafood',
+        description: 'Pasture-raised poultry breast fillet, 100% antibiotic & hormone free. Blast-chilled and vacuum sealed.',
+        image_url: 'https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=600&q=80',
+        storage_type: 'frozen',
+        chill_temp_c: -18.0,
+        aisle_location: 'Zone C / Meat-Freezer / Bin 12',
+        is_veg: 0,
+        weights: [
+          { weight_label: '250g', price: 125, retail_price: 155, stock_count: 30, is_default: 0 },
+          { weight_label: '500g', price: 235, retail_price: 290, stock_count: 45, is_default: 1 },
+          { weight_label: '1kg', price: 449, retail_price: 550, stock_count: 22, is_default: 0 }
+        ]
+      },
+      {
+        id: 'PRD-SOU-05',
+        slug: 'sourdough-brioche-loaf-400g',
+        name: 'Sourdough Brioche Loaf 400g',
+        category_id: 'cat-bakery',
+        category_name: 'Bakery & Artisan',
+        description: 'Slow-fermented wild yeast brioche enriched with French grass-fed butter. Baked fresh daily at 4:00 AM.',
+        image_url: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80',
+        storage_type: 'ambient',
+        chill_temp_c: 22.0,
+        aisle_location: 'Zone D / Bakery-Rack / Shelf 01',
+        is_veg: 1,
+        weights: [
+          { weight_label: '200g Half', price: 79, retail_price: 99, stock_count: 15, is_default: 0 },
+          { weight_label: '400g', price: 140, retail_price: 175, stock_count: 28, is_default: 1 },
+          { weight_label: '800g Twin', price: 260, retail_price: 330, stock_count: 12, is_default: 0 }
+        ]
+      },
+      {
+        id: 'PRD-MNG-06',
+        slug: 'alphonso-mangoes-grade-a-1kg',
+        name: 'Alphonso Mangoes Grade A (1kg)',
+        category_id: 'cat-fruits',
+        category_name: 'Seasonal Fruits',
+        description: 'Naturally tree-ripened Devgad Alphonso mangoes. Golden saffron pulp with intense aromatic floral bouquet.',
+        image_url: 'https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&w=600&q=80',
+        storage_type: 'ambient',
+        chill_temp_c: 18.0,
+        aisle_location: 'Zone A / Tropical-Fruit / Bin 09',
+        is_veg: 1,
+        weights: [
+          { weight_label: '500g (2 pcs)', price: 249, retail_price: 320, stock_count: 25, is_default: 0 },
+          { weight_label: '1kg', price: 469, retail_price: 599, stock_count: 38, is_default: 1 },
+          { weight_label: '2kg Crate', price: 899, retail_price: 1150, stock_count: 10, is_default: 0 }
+        ]
+      },
+      {
+        id: 'PRD-FSH-07',
+        slug: 'wild-caught-neymeen-kingfish-steaks',
+        name: 'Wild-Caught Neymeen King Fish Steaks (500g)',
+        category_id: 'cat-meat',
+        category_name: 'Meat & Seafood',
+        description: 'Arabian sea catch-of-the-day king fish steaks, cleaned and cut. Maintained at -2°C cold-chain.',
+        image_url: 'https://images.unsplash.com/photo-1534948216015-843149f72be3?auto=format&fit=crop&w=600&q=80',
+        storage_type: 'frozen',
+        chill_temp_c: -18.0,
+        aisle_location: 'Zone C / Meat-Freezer / Bin 05',
+        is_veg: 0,
+        weights: [
+          { weight_label: '500g', price: 380, retail_price: 480, stock_count: 18, is_default: 1 },
+          { weight_label: '1kg', price: 740, retail_price: 920, stock_count: 12, is_default: 0 }
+        ]
+      },
+      {
+        id: 'PRD-EGG-08',
+        slug: 'farm-fresh-country-eggs-pack-of-6',
+        name: 'Organic Free-Range Country Eggs (Pack of 6)',
+        category_id: 'cat-dairy',
+        category_name: 'Dairy & Breakfast',
+        description: 'Brown shell eggs from grain-fed hens. Golden yellow high-protein yolks rich in Omega-3.',
+        image_url: 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=600&q=80',
+        storage_type: 'chilled',
+        chill_temp_c: 8.0,
+        aisle_location: 'Zone B / Dairy-Chiller / Shelf 04',
+        is_veg: 1,
+        weights: [
+          { weight_label: 'Pack of 6', price: 82, retail_price: 105, stock_count: 40, is_default: 1 },
+          { weight_label: 'Pack of 12', price: 155, retail_price: 200, stock_count: 25, is_default: 0 }
+        ]
+      },
+      {
+        id: 'PRD-ORG-09',
+        slug: 'cold-pressed-valencia-orange-juice-500ml',
+        name: 'Cold-Pressed Valencia Orange Juice 500ml',
+        category_id: 'cat-beverages',
+        category_name: 'Cold Beverages',
+        description: 'High-pressure processed (HPP) raw Valencia oranges. 100% juice, no heat treatment, no preservatives.',
+        image_url: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=600&q=80',
+        storage_type: 'chilled',
+        chill_temp_c: 3.8,
+        aisle_location: 'Zone B / Bev-Chiller / Bin 03',
+        is_veg: 1,
+        weights: [
+          { weight_label: '300ml', price: 89, retail_price: 115, stock_count: 30, is_default: 0 },
+          { weight_label: '500ml', price: 139, retail_price: 179, stock_count: 35, is_default: 1 }
+        ]
+      },
+      {
+        id: 'PRD-CRO-10',
+        slug: 'french-butter-croissants-pack-of-2',
+        name: 'Artisan Butter Croissants (Pack of 2)',
+        category_id: 'cat-bakery',
+        category_name: 'Bakery & Artisan',
+        description: 'Flaky, layered French laminated pastry baked with 84% churned Normandy butter.',
+        image_url: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80',
+        storage_type: 'ambient',
+        chill_temp_c: 22.0,
+        aisle_location: 'Zone D / Bakery-Rack / Shelf 03',
+        is_veg: 1,
+        weights: [
+          { weight_label: 'Pack of 2', price: 160, retail_price: 210, stock_count: 20, is_default: 1 },
+          { weight_label: 'Pack of 4', price: 299, retail_price: 390, stock_count: 14, is_default: 0 }
+        ]
+      }
+    ];
+
+    let currentCategory = 'all';
+    let currentStorageFilter = 'all';
+    let searchQuery = '';
+
+    // Initialize Page
+    async function initCatalog() {
+      try {
+        const res = await fetch('/api/catalog');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.products && data.products.length > 0) {
+            catalogProducts = data.products.map(p => ({
+              ...p,
+              is_veg: p.category_id !== 'cat-meat' ? 1 : 0
+            }));
+          } else {
+            catalogProducts = fallbackCatalog;
+          }
+        } else {
+          catalogProducts = fallbackCatalog;
+        }
+      } catch (e) {
+        catalogProducts = fallbackCatalog;
+      }
+
+      // Initialize default selected variants
+      catalogProducts.forEach(p => {
+        const defIdx = p.weights.findIndex(w => w.is_default);
+        selectedVariants[p.id] = defIdx !== -1 ? defIdx : 0;
+      });
+
+      renderProducts();
+      updateCartUI();
     }
+
+    function renderProducts() {
+      const grid = document.getElementById('productGrid');
+      if (!grid) return;
+
+      let filtered = catalogProducts.filter(p => {
+        if (currentCategory !== 'all') {
+          if (p.category_id !== currentCategory && p.slug !== currentCategory && p.category_id !== 'cat-' + currentCategory.replace('fresh-', '').replace('dairy-', '').replace('meat-', '').replace('cold-', '').replace('bakery-', '').replace('seasonal-', '')) {
+            // Check direct category slug match
+            const catMap = {
+              'fresh-produce': 'cat-produce',
+              'dairy-breakfast': 'cat-dairy',
+              'meat-seafood': 'cat-meat',
+              'cold-beverages': 'cat-beverages',
+              'bakery-artisan': 'cat-bakery',
+              'seasonal-fruits': 'cat-fruits'
+            };
+            if (p.category_id !== catMap[currentCategory]) return false;
+          }
+        }
+        if (currentStorageFilter !== 'all' && p.storage_type !== currentStorageFilter) return false;
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          const matchesName = p.name.toLowerCase().includes(q);
+          const matchesDesc = (p.description || '').toLowerCase().includes(q);
+          const matchesBin = (p.aisle_location || '').toLowerCase().includes(q);
+          if (!matchesName && !matchesDesc && !matchesBin) return false;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #94A3B8;">No products found in this category or search filter.</div>';
+        return;
+      }
+
+      grid.innerHTML = filtered.map(p => {
+        const varIdx = selectedVariants[p.id] || 0;
+        const currentWeight = p.weights[varIdx] || p.weights[0];
+        const cartKey = `${p.id}_${currentWeight.weight_label}`;
+        const inCartItem = cart[cartKey];
+        const inCartQty = inCartItem ? inCartItem.qty : 0;
+
+        // Chill badge label
+        let chillLabel = '🌿 Ambient';
+        if (p.storage_type === 'chilled') chillLabel = `❄️ ${p.chill_temp_c}°C Chill`;
+        else if (p.storage_type === 'frozen') chillLabel = `🧊 ${p.chill_temp_c}°C Frozen`;
+
+        // Weight pills HTML
+        const weightPillsHtml = p.weights.map((w, idx) => {
+          const isSel = idx === varIdx;
+          return `<button class="weight-pill ${isSel ? 'selected' : ''}" onclick="selectWeight('${p.id}', ${idx})">${w.weight_label}</button>`;
+        }).join('');
+
+        // Action button or Stepper
+        const actionHtml = inCartQty > 0
+          ? `<div class="stepper-ctrl">
+              <button class="stepper-btn" onclick="updateQty('${cartKey}', -1)">-</button>
+              <span class="stepper-qty">${inCartQty}</span>
+              <button class="stepper-btn" onclick="updateQty('${cartKey}', 1)">+</button>
+             </div>`
+          : `<button class="btn-add-cart" onclick="addToCartDirect('${p.id}')">+ ADD</button>`;
+
+        return `
+          <div class="product-card" id="card-${p.id}">
+            <div>
+              <div class="p-media">
+                <img class="p-img" src="${p.image_url}" alt="${p.name}" loading="lazy">
+                <div class="p-chill-badge">${chillLabel}</div>
+                <div class="p-veg-dot ${p.is_veg ? '' : 'non-veg'}"></div>
+              </div>
+              <div class="p-bin-tag">📍 ${p.aisle_location}</div>
+              <div class="p-title">${p.name}</div>
+              <div class="p-desc">${p.description || ''}</div>
+              <div class="weight-pills-row">
+                ${weightPillsHtml}
+              </div>
+            </div>
+            <div class="p-footer">
+              <div class="price-col">
+                <div class="price-val">₹${currentWeight.price}</div>
+                ${currentWeight.retail_price > currentWeight.price ? `<div class="mrp-val">₹${currentWeight.retail_price}</div>` : ''}
+              </div>
+              <div>${actionHtml}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectWeight(prodId, weightIndex) {
+      selectedVariants[prodId] = weightIndex;
+      renderProducts();
+    }
+
+    function addToCartDirect(prodId) {
+      const prod = catalogProducts.find(p => p.id === prodId);
+      if (!prod) return;
+      const varIdx = selectedVariants[prodId] || 0;
+      const weight = prod.weights[varIdx] || prod.weights[0];
+      const cartKey = `${prod.id}_${weight.weight_label}`;
+
+      if (!cart[cartKey]) {
+        cart[cartKey] = {
+          prodId: prod.id,
+          name: prod.name,
+          weightLabel: weight.weight_label,
+          price: weight.price,
+          retailPrice: weight.retail_price,
+          qty: 1,
+          imageUrl: prod.image_url,
+          aisleLocation: prod.aisle_location
+        };
+      } else {
+        cart[cartKey].qty++;
+      }
+      renderProducts();
+      updateCartUI();
+    }
+
+    function updateQty(cartKey, delta) {
+      if (!cart[cartKey]) return;
+      cart[cartKey].qty += delta;
+      if (cart[cartKey].qty <= 0) {
+        delete cart[cartKey];
+      }
+      renderProducts();
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const list = document.getElementById('cartItemsList');
+      const items = Object.values(cart);
+      const mobileBadge = document.getElementById('mobileCartCount');
+
+      const totalItemsCount = items.reduce((sum, it) => sum + it.qty, 0);
+      if (mobileBadge) mobileBadge.textContent = totalItemsCount;
+
+      const checkoutBtn = document.getElementById('checkoutBtn');
+
+      if (items.length === 0) {
+        list.innerHTML = `
+          <div class="cart-empty-state">
+            <div class="cart-empty-icon">🛍️</div>
+            <div style="font-weight: 700; color: #475569; margin-bottom: 4px;">Your flash basket is empty</div>
+            <div style="font-size: 12px;">Add avocados, milk, or fresh brioche to trigger 11-min dark store dispatch!</div>
+          </div>
+        `;
+        document.getElementById('billSubtotal').textContent = '₹0';
+        document.getElementById('billTotal').textContent = '₹0';
+        document.getElementById('fdMeterFill').style.width = '0%';
+        document.getElementById('fdTextLabel').textContent = `Add ₹${minFreeDeliveryThreshold} for FREE delivery`;
+        if (checkoutBtn) checkoutBtn.disabled = true;
+        return;
+      }
+
+      list.innerHTML = items.map(it => {
+        const cartKey = `${it.prodId}_${it.weightLabel}`;
+        const lineTotal = it.price * it.qty;
+        return `
+          <div class="cart-item-row">
+            <div class="ci-info">
+              <div class="ci-name">${it.name}</div>
+              <div class="ci-weight">${it.weightLabel} • ₹${it.price} each</div>
+            </div>
+            <div class="ci-pricing">
+              <div class="ci-total">₹${lineTotal}</div>
+              <div class="stepper-ctrl">
+                <button class="stepper-btn" onclick="updateQty('${cartKey}', -1)">-</button>
+                <span class="stepper-qty">${it.qty}</span>
+                <button class="stepper-btn" onclick="updateQty('${cartKey}', 1)">+</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const subtotal = items.reduce((sum, it) => sum + (it.price * it.qty), 0);
+      const isFreeDelivery = subtotal >= minFreeDeliveryThreshold;
+      const currentDeliveryFee = isFreeDelivery ? 0 : deliveryPartnerFee;
+      const totalAmount = subtotal + currentDeliveryFee + handlingFee;
+
+      document.getElementById('billSubtotal').textContent = `₹${subtotal}`;
+      const feeEl = document.getElementById('billDeliveryFee');
+      if (isFreeDelivery) {
+        feeEl.innerHTML = `<del style="color: #94A3B8; font-size: 11px;">₹25</del> <span style="color: #0C831F; font-weight: 800;">FREE</span>`;
+      } else {
+        feeEl.textContent = `₹${currentDeliveryFee}`;
+      }
+      document.getElementById('billTotal').textContent = `₹${totalAmount}`;
+
+      // Free delivery meter
+      const pct = Math.min(100, Math.round((subtotal / minFreeDeliveryThreshold) * 100));
+      const fillEl = document.getElementById('fdMeterFill');
+      fillEl.style.width = `${pct}%`;
+      const labelEl = document.getElementById('fdTextLabel');
+
+      if (isFreeDelivery) {
+        fillEl.classList.add('complete');
+        labelEl.innerHTML = `<span style="color: #0C831F;">🎉 FREE 10-Min Delivery Unlocked!</span>`;
+      } else {
+        fillEl.classList.remove('complete');
+        const diff = minFreeDeliveryThreshold - subtotal;
+        labelEl.textContent = `Add ₹${diff} more for FREE delivery`;
+      }
+
+      if (checkoutBtn) {
+        checkoutBtn.disabled = false;
+        checkoutBtn.innerHTML = `<span>PROCEED TO ${activeEtaMins}-MIN PAY (₹${totalAmount}) ⚡</span>`;
+      }
+    }
+
+    function selectCategory(catSlug, btnEl) {
+      currentCategory = catSlug;
+      document.querySelectorAll('#categoryRail .cat-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+
+      const nameMap = {
+        'all': 'Instant 11-Min Delivery Shelf',
+        'fresh-produce': 'Fresh Produce & Avocados 🥑',
+        'dairy-breakfast': 'Dairy, Farm Milk & Eggs 🥛',
+        'meat-seafood': 'Antibiotic-Free Meat & Catch-of-Day 🍗',
+        'cold-beverages': 'Cold Pressed Juices & Tender Coconut 🥥',
+        'bakery-artisan': 'Artisan Brioche & Croissants 🍞',
+        'seasonal-fruits': 'Devgad Alphonso Mangoes 🥭'
+      };
+      document.getElementById('activeShelfName').textContent = nameMap[catSlug] || 'Hyperlocal Shelf';
+      renderProducts();
+    }
+
+    function applyStorageFilter(storageType, btnEl) {
+      currentStorageFilter = storageType;
+      document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      renderProducts();
+    }
+
+    function handleSearch(val) {
+      searchQuery = val.trim();
+      renderProducts();
+    }
+
+    // Pincode Management
+    function openPincodeModal() {
+      document.getElementById('pincodeModal').classList.add('open');
+    }
+    function closePincodeModal() {
+      document.getElementById('pincodeModal').classList.remove('open');
+    }
+
+    async function setAppPincode(pin, area, eta) {
+      activePincode = pin;
+      activeAreaName = area;
+      activeEtaMins = eta;
+
+      document.getElementById('topRadarPin').textContent = pin;
+      document.getElementById('topRadarArea').textContent = area.split(',')[0];
+      document.getElementById('topRadarEta').textContent = `${eta} MINS`;
+      document.getElementById('cartEtaTag').textContent = `${eta} MINS`;
+      document.getElementById('dropAddressLabel').textContent = `Apt 402, ${area}, ${pin}`;
+
+      // Update button highlights in modal
+      document.querySelectorAll('.pin-choice-btn').forEach(b => {
+        b.classList.toggle('active', b.textContent.includes(pin));
+      });
+
+      closePincodeModal();
+      updateCartUI();
+    }
+
+    async function checkCustomPin() {
+      const pin = document.getElementById('customPinInput').value.trim();
+      const alertEl = document.getElementById('pinAlertMsg');
+      if (!pin || pin.length !== 6) {
+        alertEl.innerHTML = '<span style="color: #EF4444;">Please enter a valid 6-digit pincode.</span>';
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/pincode?pincode=${pin}`);
+        const data = await res.json();
+        if (data.serviceable) {
+          alertEl.innerHTML = `<span style="color: #0C831F;">✓ Serviceable! ETA ${data.etaMins} mins from ${data.darkStore}.</span>`;
+          setTimeout(() => {
+            setAppPincode(data.pincode, data.areaName, data.etaMins);
+          }, 800);
+        } else {
+          alertEl.innerHTML = `<span style="color: #EF4444;">Pincode ${pin} is outside current 15-min radius. Select Bangalore (560038, 560034, 560008) or Kochi (682036).</span>`;
+        }
+      } catch (e) {
+        alertEl.innerHTML = '<span style="color: #EF4444;">Error checking delivery zone.</span>';
+      }
+    }
+
+    // Checkout Flow
+    let currentPendingOrderId = 'QC-' + Math.floor(1000 + Math.random() * 9000);
+
+    function initiateCheckout() {
+      const items = Object.values(cart);
+      if (items.length === 0) return;
+
+      const subtotal = items.reduce((sum, it) => sum + (it.price * it.qty), 0);
+      const isFreeDelivery = subtotal >= minFreeDeliveryThreshold;
+      const fee = isFreeDelivery ? 0 : deliveryPartnerFee;
+      const total = subtotal + fee + handlingFee;
+
+      currentPendingOrderId = 'QC-' + Math.floor(1000 + Math.random() * 9000);
+      document.getElementById('modalOrderId').textContent = currentPendingOrderId;
+      document.getElementById('modalPayAmount').textContent = `Pay ₹${total}.00`;
+      document.getElementById('modalPinTarget').textContent = `${activePincode} (${activeAreaName})`;
+
+      document.getElementById('checkoutModal').classList.add('open');
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById('checkoutModal').classList.remove('open');
+    }
+
+    async function confirmSimulatedPayment() {
+      // POST order to backend /api/checkout
+      const itemsPayload = Object.values(cart).map(i => ({
+        productId: i.prodId,
+        weightLabel: i.weightLabel,
+        qty: i.qty
+      }));
+
+      try {
+        await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            items: itemsPayload,
+            pincode: activePincode,
+            customer: {
+              name: 'Dr. Tara Varma',
+              phone: '919847011223',
+              address: `Apt 402, ${activeAreaName}`
+            }
+          })
+        });
+      } catch (e) {
+        console.warn('Checkout server API call notice:', e);
+      }
+
+      // Close checkout modal & launch live rider GPS simulation modal!
+      closeCheckoutModal();
+      cart = {};
+      renderProducts();
+      updateCartUI();
+      openRiderGpsModal();
+    }
+
+    // Live Rider GPS Map Simulation
+    let gpsCountdownInterval = null;
+    let gpsSecondsRemaining = 11 * 60 + 42; // 11m 42s
+
+    function openRiderGpsModal() {
+      const modal = document.getElementById('riderGpsModal');
+      modal.classList.add('open');
+
+      gpsSecondsRemaining = activeEtaMins * 60 - 18;
+      updateGpsTimerDisplay();
+
+      if (gpsCountdownInterval) clearInterval(gpsCountdownInterval);
+      gpsCountdownInterval = setInterval(() => {
+        gpsSecondsRemaining--;
+        if (gpsSecondsRemaining <= 0) {
+          gpsSecondsRemaining = 0;
+          clearInterval(gpsCountdownInterval);
+          document.getElementById('gpsMilestoneText').textContent = '🎉 Order delivered to your doorstep!';
+          document.getElementById('gpsStepRemaining').textContent = 'DELIVERED';
+        } else {
+          updateGpsTimerDisplay();
+          animateScooterPosition();
+        }
+      }, 1000);
+    }
+
+    function closeRiderGpsModal() {
+      document.getElementById('riderGpsModal').classList.remove('open');
+      if (gpsCountdownInterval) clearInterval(gpsCountdownInterval);
+    }
+
+    function updateGpsTimerDisplay() {
+      const m = Math.floor(gpsSecondsRemaining / 60);
+      const s = gpsSecondsRemaining % 60;
+      const formatted = `${m}:${s < 10 ? '0' : ''}${s} MINS`;
+      document.getElementById('gpsLiveTimer').textContent = formatted;
+      document.getElementById('gpsStepRemaining').textContent = `${m} mins`;
+    }
+
+    function animateScooterPosition() {
+      const marker = document.getElementById('animatedScooterMarker');
+      if (!marker) return;
+      // Animate along the path from X: 70->430, Y: 180->60
+      const totalSec = activeEtaMins * 60;
+      const elapsed = Math.max(0, totalSec - gpsSecondsRemaining);
+      const ratio = Math.min(0.95, (elapsed / totalSec) * 2.5); // simulate moving forward visibly
+
+      const startX = 70, startY = 180;
+      const endX = 430, endY = 60;
+      const currentX = Math.round(startX + (endX - startX) * ratio);
+      const currentY = Math.round(startY + (endY - startY) * ratio - Math.sin(ratio * Math.PI) * 40);
+
+      marker.setAttribute('transform', `translate(${currentX}, ${currentY})`);
+    }
+
+    function toggleMobileCart() {
+      const cp = document.getElementById('cartPane');
+      cp.classList.toggle('mobile-open');
+    }
+
+    // Startup
+    document.addEventListener('DOMContentLoaded', () => {
+      initCatalog();
+    });
   </script>
 </body>
 </html>
